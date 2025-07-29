@@ -6,11 +6,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UsrHomeController {
-	
-	@RequestMapping("/usr/home/main")
+	int count = 0;
+
+	@RequestMapping("/usr/home/setCountValue")
 	@ResponseBody
-	public String showMain() {
-		return "안녕하세요";
+	public String setCountValue(int value) {
+		this.count = value;
+		return "count값 " + value + "(으)로 설정";
+	}
+
+	@RequestMapping("/usr/home/getCount")
+	@ResponseBody
+	public String getCount() {
+		return "count = " + this.count;
+	}
+
+	@RequestMapping("/usr/home/setCount")
+	@ResponseBody
+	public String setCount() {
+		this.count = 0;
+		return "count값 초기화";
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
