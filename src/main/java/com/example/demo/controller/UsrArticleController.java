@@ -1,65 +1,45 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.service.ArticleService;
 import com.example.demo.vo.Article;
 
 @Controller
 public class UsrArticleController {
 
-	private int lastArticleId;
-	private List<Article> articles;
-
-	public UsrArticleController() {
-		this.lastArticleId = 0;
-		this.articles = new ArrayList<>();
-
-		makeTestData();
-
-	}
-
-	private void makeTestData() {
-
-		for (int i = 1; i <= 10; i++) {
-			String title = "제목 " + i;
-			String body = "내용 " + i;
-			writeArticle(title, body);
-
+	@Autowired
+	private ArticleService articleService;
+	
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public Object doModify(int id, String title, String body) {
+		
+		Article article = articleService.getArticleById(id);
+		if (article == null) {
+			return id + "번 글 없음";
+		} else {
+			article.setTitle(title);
+			article.setBody(body);
 		}
-	}
-
-	private Article writeArticle(String title, String body) {
-		int id = ++this.lastArticleId;
-
-		Article article = new Article(id, title, body);
-		this.articles.add(article);
 
 		return article;
-	}
-
-	private Article getArticleById(int id) {
-		for (Article article : articles) {
-			if (article.getId() == id) {
-				return article;
-			}
-		}
-		return null;
 	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
 
-		Article article = getArticleById(id);
+		Article article = articleService.getArticleById(id);
 		if (article == null) {
 			return id + "번 글 없음";
 		} else {
-			articles.remove(article);
+			articleService.articles.remove(article);
 		}
 
 		return id + "번 글이 삭제되었습니다.";
@@ -69,7 +49,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public Article doAdd(String title, String body) {
 
-		Article article = writeArticle(title, body);
+		Article article = articleService.writeArticle(title, body);
 
 		return article;
 	}
@@ -78,7 +58,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public List<Article> getArticles() {
 
-		return this.articles;
+		return articleService.articles;
 	}
 
 }
