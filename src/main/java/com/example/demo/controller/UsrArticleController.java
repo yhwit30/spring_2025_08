@@ -18,32 +18,57 @@ public class UsrArticleController {
 	public UsrArticleController() {
 		this.lastArticleId = 0;
 		this.articles = new ArrayList<>();
-		
+
 		makeTestData();
-		
+
 	}
+
 	private void makeTestData() {
-		
-		for(int i = 1; i <= 10; i++) {
+
+		for (int i = 1; i <= 10; i++) {
 			String title = "제목 " + i;
 			String body = "내용 " + i;
 			writeArticle(title, body);
-			
+
 		}
 	}
+
 	private Article writeArticle(String title, String body) {
 		int id = ++this.lastArticleId;
-		
+
 		Article article = new Article(id, title, body);
 		this.articles.add(article);
 
 		return article;
 	}
 
+	private Article getArticleById(int id) {
+		for (Article article : articles) {
+			if (article.getId() == id) {
+				return article;
+			}
+		}
+		return null;
+	}
+
+	@RequestMapping("/usr/article/doDelete")
+	@ResponseBody
+	public String doDelete(int id) {
+
+		Article article = getArticleById(id);
+		if (article == null) {
+			return id + "번 글 없음";
+		} else {
+			articles.remove(article);
+		}
+
+		return id + "번 글이 삭제되었습니다.";
+	}
+
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
-		
+
 		Article article = writeArticle(title, body);
 
 		return article;
