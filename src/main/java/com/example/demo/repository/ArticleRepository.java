@@ -3,57 +3,23 @@ package com.example.demo.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.example.demo.vo.Article;
 
-@Component
-public class ArticleRepository {
+@Mapper
+public interface ArticleRepository {
 
-	public int lastArticleId;
-	public List<Article> articles;
+	@Insert("INSERT INTO `article` SET `regDate` = NOW(), `updateDate` = NOW(), `title` = #{title}, `body` = #{body}, `memberId` = 1;")
+	public Article writeArticle(String title, String body);
 
-	public ArticleRepository() {
-		this.lastArticleId = 0;
-		this.articles = new ArrayList<>();
-	}
+	public Article getArticleById(int id);
 
-	public Article writeArticle(String title, String body) {
-		int id = ++this.lastArticleId;
+	public List<Article> getArticles();
 
-		Article article = new Article(id, title, body);
-		this.articles.add(article);
+	public Object modifyArticle(int id, String title, String body);
 
-		return article;
-	}
-
-	public Article getArticleById(int id) {
-		for (Article article : articles) {
-			if (article.getId() == id) {
-				return article;
-			}
-		}
-		return null;
-	}
-
-	public List<Article> getArticles() {
-		return articles;
-	}
-
-	public Object modifyArticle(int id, String title, String body) {
-
-		Article article = getArticleById(id);
-		article.setTitle(title);
-		article.setBody(body);
-
-		return null;
-	}
-
-	public void deleteArticle(int id) {
-		Article article = getArticleById(id);
-		articles.remove(article);
-	}
+	public void deleteArticle(int id);
 
 }
-
-
