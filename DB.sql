@@ -52,21 +52,10 @@ SET `regDate` = NOW(),
     `loginPw` = 'test2',
     `name` = '김철수';   
 
-
 SELECT *
 FROM `article`;
 SELECT *
 FROM `member`;
-
-ALTER TABLE `article` ADD COLUMN `memberId` INT NOT NULL AFTER `updateDate`;
-
-UPDATE `article`
-SET `memberId` = 1
-WHERE `id` IN (1,2);
-
-UPDATE `article`
-SET `memberId` = 2
-WHERE `id` = 3;
 
 ###############################################
 # 게시글 데이터 대량 생성

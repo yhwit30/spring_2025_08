@@ -16,7 +16,7 @@ public class ArticleService {
 
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-		makeTestData();
+//		makeTestData();
 	}
 
 	private void makeTestData() {

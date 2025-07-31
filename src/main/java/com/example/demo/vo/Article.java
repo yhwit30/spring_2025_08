@@ -18,7 +18,6 @@ public class Article {
 	String body;
 	LocalDateTime regDate;
 	LocalDateTime updateDate;
-	int memberId;
 
 	public Article(String title, String body) {
 		this.title = title;
