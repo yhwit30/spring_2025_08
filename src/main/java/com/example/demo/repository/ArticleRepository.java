@@ -40,4 +40,20 @@ public class ArticleRepository {
 		return articles;
 	}
 
+	public Object modifyArticle(int id, String title, String body) {
+
+		Article article = getArticleById(id);
+		article.setTitle(title);
+		article.setBody(body);
+
+		return null;
+	}
+
+	public void deleteArticle(int id) {
+		Article article = getArticleById(id);
+		articles.remove(article);
+	}
+
 }
+
+

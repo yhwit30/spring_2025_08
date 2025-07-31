@@ -40,4 +40,13 @@ public class ArticleService {
 		return articleRepository.getArticleById(id);
 	}
 
+	public Object modifyArticle(int id, String title, String body) {
+		return articleRepository.modifyArticle(id, title, body);
+
+	}
+
+	public void deleteArticle(int id) {
+		articleRepository.deleteArticle(id);
+	}
+
 }

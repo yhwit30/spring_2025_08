@@ -15,17 +15,16 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	
+
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public Object doModify(int id, String title, String body) {
-		
+
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
 			return id + "번 글 없음";
 		} else {
-			article.setTitle(title);
-			article.setBody(body);
+			articleService.modifyArticle(id, title, body);
 		}
 
 		return article;
@@ -39,7 +38,7 @@ public class UsrArticleController {
 		if (article == null) {
 			return id + "번 글 없음";
 		} else {
-			articleService.getArticles().remove(article);
+			articleService.deleteArticle(id);
 		}
 
 		return id + "번 글이 삭제되었습니다.";
