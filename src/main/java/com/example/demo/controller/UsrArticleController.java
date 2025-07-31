@@ -39,7 +39,7 @@ public class UsrArticleController {
 		if (article == null) {
 			return id + "번 글 없음";
 		} else {
-			articleService.articles.remove(article);
+			articleService.getArticles().remove(article);
 		}
 
 		return id + "번 글이 삭제되었습니다.";
@@ -58,7 +58,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public List<Article> getArticles() {
 
-		return articleService.articles;
+		return articleService.getArticles();
 	}
 
 }
