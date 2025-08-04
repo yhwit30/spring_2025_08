@@ -18,10 +18,13 @@ CREATE TABLE `member` (
     `updateDate` DATETIME NOT NULL,
     `loginId` CHAR(100) NOT NULL,
     `loginPw` CHAR(100) NOT NULL,
+    `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반, 7=관리자)',
     `name` CHAR(100) NOT NULL,
-    `nickname` char(20) not null,
-    `cellphoneNum` char(20) not null,
-    `email` char(20) not null
+    `nickname` CHAR(20) NOT NULL,
+    `cellphoneNum` CHAR(20) NOT NULL,
+    `email` CHAR(20) NOT NULL,
+    `delStatus` TINYINT(1) UNSIGNED DEFAULT 0 COMMENT '탈퇴 여부(0=탈퇴 전, 1=탈퇴 후)',
+    `delDate` DATETIME COMMENT '탈퇴 날짜'
 );
 
 
@@ -47,27 +50,30 @@ SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'admin',
     `loginPw` = 'admin',
-    `name` = '관리자'
-    `nickname` = '관리자_닉네임'
-    `cellphoneNum` = '01045644565'
+    `authLevel` = 7,
+    `name` = '관리자',
+    `nickname` = '관리자_닉네임',
+    `cellphoneNum` = '01045644565',
     `email` = 'admin@gmail.com'; 
 INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'test1',
     `loginPw` = 'test1',
-    `name` = '회원1'
-    `nickname` = '회원1_닉네임'
-    `cellphoneNum` = '01066914545'
+    `authLevel` = 3,
+    `name` = '회원1',
+    `nickname` = '회원1_닉네임',
+    `cellphoneNum` = '01066914545',
     `email` = '회원1@gmail.com'; 
 INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'test2',
     `loginPw` = 'test2',
-    `name` = '회원2'
-    `nickname` = '회원2_닉네임'
-    `cellphoneNum` = '01098765432'
+    `authLevel` = 3,
+    `name` = '회원2',
+    `nickname` = '회원2_닉네임',
+    `cellphoneNum` = '01098765432',
     `email` = '회원2@gmail.com'; 
 
 SELECT *
