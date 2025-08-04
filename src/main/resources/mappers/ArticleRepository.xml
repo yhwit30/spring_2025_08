@@ -8,21 +8,21 @@
 	<insert id="writeArticle" parameterType="map">
 		INSERT INTO article
 		SET
-		regDate = NOW(),
-		updateDate = NOW(),
-		title = #{title},
-		body
-		= #{body}
+		`regDate` = NOW(),
+		`updateDate` = NOW(),
+		`title` = #{title},
+		`body` =
+		#{body}
 	</insert>
 
 	<update id="modifyArticle" parameterType="map">
 		UPDATE `article`
-		SET
-		`updateDate` = NOW(),
-		`title` = #{title},
-		`body` = #{body}
-		WHERE `id` =
-		#{id}
+		<set>
+			<if test="title != null and title != ''">`title` = #{title},</if>
+			<if test="body != null and body != ''">`body` = #{body},</if>
+			`updateDate` = NOW()
+		</set>
+		WHERE `id` = #{id}
 	</update>
 
 	<select id="getArticleById" parameterType="int"
@@ -37,7 +37,6 @@
 		SELECT *
 		FROM `article`
 	</select>
-
 
 	<delete id="deleteArticle" parameterType="int">
 		DELETE FROM article
