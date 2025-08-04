@@ -12,9 +12,13 @@ import com.example.demo.vo.Article;
 
 @Controller
 public class UsrArticleController {
-
+	
 	@Autowired
 	private ArticleService articleService;
+	
+	UsrArticleController(ArticleService articleService){
+		this.articleService = articleService;
+	}
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody

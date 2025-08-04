@@ -18,7 +18,10 @@ CREATE TABLE `member` (
     `updateDate` DATETIME NOT NULL,
     `loginId` CHAR(100) NOT NULL,
     `loginPw` CHAR(100) NOT NULL,
-    `name` CHAR(100) NOT NULL
+    `name` CHAR(100) NOT NULL,
+    `nickname` char(20) not null,
+    `cellphoneNum` char(20) not null,
+    `email` char(20) not null
 );
 
 
@@ -42,15 +45,30 @@ SET `regDate` = NOW(),
 INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
+    `loginId` = 'admin',
+    `loginPw` = 'admin',
+    `name` = '관리자'
+    `nickname` = '관리자_닉네임'
+    `cellphoneNum` = '01045644565'
+    `email` = 'admin@gmail.com'; 
+INSERT INTO `member`
+SET `regDate` = NOW(),
+    `updateDate` = NOW(),
     `loginId` = 'test1',
     `loginPw` = 'test1',
-    `name` = '홍길동'; 
+    `name` = '회원1'
+    `nickname` = '회원1_닉네임'
+    `cellphoneNum` = '01066914545'
+    `email` = '회원1@gmail.com'; 
 INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'test2',
     `loginPw` = 'test2',
-    `name` = '김철수';   
+    `name` = '회원2'
+    `nickname` = '회원2_닉네임'
+    `cellphoneNum` = '01098765432'
+    `email` = '회원2@gmail.com'; 
 
 SELECT *
 FROM `article`;
