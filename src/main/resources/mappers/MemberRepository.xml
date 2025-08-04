@@ -18,4 +18,20 @@
 		`email` = #{email}
 	</insert>
 
+	<select id="getMemberById" parameterType="int"
+		resultType="com.example.demo.vo.Member">
+		SELECT *
+		FROM `member`
+		WHERE `id` = #{id}
+	</select>
+
+	<select id="getLastInsertId">
+		SELECT LAST_INSERT_ID()
+	</select>
+
 </mapper>
+
+
+
+
+
