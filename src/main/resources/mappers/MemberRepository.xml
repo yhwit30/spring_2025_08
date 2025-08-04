@@ -24,6 +24,13 @@
 		FROM `member`
 		WHERE `id` = #{id}
 	</select>
+	
+	<select id="getMemberByLoginId" parameterType="String"
+		resultType="com.example.demo.vo.Member">
+		SELECT *
+		FROM `member`
+		WHERE `loginId` = #{loginId}
+	</select>
 
 	<select id="getLastInsertId">
 		SELECT LAST_INSERT_ID()

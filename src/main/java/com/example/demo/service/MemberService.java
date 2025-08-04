@@ -13,6 +13,13 @@ public class MemberService {
 	private MemberRepository memberRepository;
 
 	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+		
+		// 로그인 중복체크
+		Member existsMember = memberRepository.getMemberByLoginId(loginId);
+		if(existsMember != null) {
+			return -1;
+		}
+		
 
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 
