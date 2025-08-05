@@ -14,7 +14,7 @@ public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		// 로그인 중복체크
 		Member existsMember = memberRepository.getMemberByLoginId(loginId);
@@ -33,25 +33,6 @@ public ResultData doJoin(String loginId, String loginPw, String name, String nic
 
 		return ResultData.from("S-1", "회원가입 성공", id);
 	}
-
-//	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
-//		
-//		// 로그인 중복체크
-//		Member existsMember = memberRepository.getMemberByLoginId(loginId);
-//		if(existsMember != null) {
-//			return -1;
-//		}
-//		// 이름 + 이메일 중복체크 
-//		existsMember = memberRepository.getMemberByNameAndEmail(name, email);
-//		if(existsMember != null) {
-//			return -2;
-//		}
-//		
-//
-//		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
-//
-//		return memberRepository.getLastInsertId();
-//	}
 
 	public Member getMemberById(int id) {
 		return memberRepository.getMemberById(id);

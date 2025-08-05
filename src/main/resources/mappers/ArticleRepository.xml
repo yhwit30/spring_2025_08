@@ -25,6 +25,10 @@
 		WHERE `id` = #{id}
 	</update>
 
+	<select id="getLastInsertId">
+		SELECT LAST_INSERT_ID()
+	</select>
+
 	<select id="getArticleById" parameterType="int"
 		resultType="com.example.demo.vo.Article">
 		SELECT *
