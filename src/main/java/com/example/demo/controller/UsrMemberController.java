@@ -46,6 +46,9 @@ public class UsrMemberController {
 		if (id == -1) {
 			return "이미 사용 중인 아이디입니다.";
 		}
+		if (id == -2) {
+			return "이름과 이메일이 중복되었습니다. 다시 입력하세요.";
+		}
 
 		Member member = memberService.getMemberById(id);
 
