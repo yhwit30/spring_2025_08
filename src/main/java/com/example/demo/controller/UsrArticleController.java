@@ -24,35 +24,37 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public Object doModify(int id, String title, String body) {
+	public ResultData<Integer> doModify(int id, String title, String body) {
 
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
-			return id + "번 글 없음";
+			return ResultData.from("F-1", Ut.f("%d번 글은 없습니다.", id));
 		} else {
 			articleService.modifyArticle(id, title, body);
 		}
+		article = articleService.getArticleById(id);
 
-		return article;
+		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다.", id));
 	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(int id) {
+	public ResultData<Integer> doDelete(int id) {
 
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
-			return id + "번 글 없음";
+			return ResultData.from("F-1", Ut.f("%d번 글은 없습니다.", id));
 		} else {
 			articleService.deleteArticle(id);
 		}
+		article = articleService.getArticleById(id);
 
-		return id + "번 글이 삭제되었습니다.";
+		return ResultData.from("S-1", Ut.f("%d번 글이 삭제되었습니다.", id));
 	}
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData doWrite(String title, String body) {
+	public ResultData<Article> doWrite(String title, String body) {
 
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목을 입력하세요");
@@ -66,14 +68,13 @@ public class UsrArticleController {
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticleById(id);
-//		Article article = articleService.writeArticle(title, body);
 
 		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
 	}
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData getArticles(int id) {
+	public ResultData<Article> getArticle(int id) {
 
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
@@ -85,7 +86,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public ResultData getArticles() {
+	public ResultData<List<Article>> getArticles() {
 		List<Article> articles = articleService.getArticles();
 
 		return ResultData.from("S-1", "Article 목록", articles);

@@ -14,7 +14,7 @@ public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		// 로그인 중복체크
 		Member existsMember = memberRepository.getMemberByLoginId(loginId);
