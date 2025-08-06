@@ -26,7 +26,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData<Integer> doModify(HttpSession session, int id, String title, String body) {
+	public ResultData doModify(HttpSession session, int id, String title, String body) {
 
 		// 로그인체크
 		boolean isLogined = false;
@@ -36,18 +36,26 @@ public class UsrArticleController {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
 		if (isLogined == false) {
-			return ResultData.from("F-A", "권한이 없습니다.");
+			return ResultData.from("F-A", "로그인 하고 오세요.");
 		}
 
+		// 게시글 유무체크
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
 			return ResultData.from("F-1", Ut.f("%d번 글은 없습니다.", id));
-		} else {
-			articleService.modifyArticle(id, title, body);
 		}
+
+		// 권한체크
+		ResultData loginedMemberAuthCheckRd = articleService.loginedMemberAuthCheck(loginedMemberId, article);
+		if (loginedMemberAuthCheckRd.getResultCode().startsWith("F")) {
+			return ResultData.from("F-A", loginedMemberAuthCheckRd.getMsg());
+		}
+
+		articleService.modifyArticle(id, title, body);
+
 		article = articleService.getArticleById(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다.", id));
+		return ResultData.from(loginedMemberAuthCheckRd.getResultCode(), loginedMemberAuthCheckRd.getMsg(), article);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -61,16 +69,24 @@ public class UsrArticleController {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
 		if (isLogined == false) {
-			return ResultData.from("F-A", "권한이 없습니다.");
+			return ResultData.from("F-A", "로그인 하고 오세요");
 		}
 
+		// 게시글 유무체크
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
 			return ResultData.from("F-1", Ut.f("%d번 글은 없습니다.", id));
-		} else {
-			articleService.deleteArticle(id);
 		}
-		article = articleService.getArticleById(id);
+
+		// 권한체크
+		ResultData loginedMemberAuthCheckRd = articleService.loginedMemberAuthCheck(loginedMemberId, article);
+		if (loginedMemberAuthCheckRd.getResultCode().startsWith("F")) {
+			return ResultData.from("F-A", loginedMemberAuthCheckRd.getMsg());
+		}
+
+		articleService.deleteArticle(id);
+
+//		article = articleService.getArticleById(id);
 
 		return ResultData.from("S-1", Ut.f("%d번 글이 삭제되었습니다.", id));
 	}
@@ -82,6 +98,7 @@ public class UsrArticleController {
 		// 로그인체크
 		boolean isLogined = false;
 		int loginedMemberId = -1;
+
 		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
