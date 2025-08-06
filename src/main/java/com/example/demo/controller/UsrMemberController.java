@@ -17,10 +17,27 @@ public class UsrMemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@RequestMapping("/usr/member/doLogout")
+	@ResponseBody
+	public ResultData<String> doLogout(HttpSession session) {
+		
+		boolean isLogined = false;
+		if(session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+		if(!isLogined) {
+			return ResultData.from("F-1", "이미 로그아웃 상태임");
+		}
+		
+		session.removeAttribute("loginedMemberId");
+		
+		return ResultData.from("S-1", "로그아웃 되었습니다.");
+	}
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public ResultData<Member> doLogin(HttpSession session, String loginId, String loginPw) {
+	public ResultData<String> doLogin(HttpSession session, String loginId, String loginPw) {
 
 		boolean isLogined = false;
 
@@ -42,10 +59,10 @@ public class UsrMemberController {
 			return ResultData.from("F-4", Ut.f("%s는 없는 아이디야", loginId));
 		}
 		if (member.getLoginPw().equals(loginPw) == false) {
-			return ResultData.from("F-35", "비밀번호가 일치하지 않음");
+			return ResultData.from("F-5", "비밀번호가 일치하지 않음");
 		}
 
-		session.setAttribute("loginedMemberId", loginId);
+		session.setAttribute("loginedMemberId", member.getId());
 
 		return ResultData.from("S-1", Ut.f("%s님 환영합니다.", member.getNickname()));
 

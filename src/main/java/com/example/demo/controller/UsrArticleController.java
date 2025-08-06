@@ -12,6 +12,8 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.ResultData;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrArticleController {
 
@@ -24,7 +26,18 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData<Integer> doModify(int id, String title, String body) {
+	public ResultData<Integer> doModify(HttpSession session, int id, String title, String body) {
+
+		// 로그인체크
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
+		if (isLogined == false) {
+			return ResultData.from("F-A", "권한이 없습니다.");
+		}
 
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
@@ -39,7 +52,17 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData<Integer> doDelete(int id) {
+	public ResultData<Integer> doDelete(HttpSession session, int id) {
+		// 로그인체크
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
+		if (isLogined == false) {
+			return ResultData.from("F-A", "권한이 없습니다.");
+		}
 
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
@@ -54,7 +77,18 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(String title, String body) {
+	public ResultData<Article> doWrite(HttpSession session, String title, String body) {
+
+		// 로그인체크
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
+		if (isLogined == false) {
+			return ResultData.from("F-A", "로그인 하고 작성하세요.");
+		}
 
 		if (Ut.isEmptyOrNull(title)) {
 			return ResultData.from("F-1", "제목을 입력하세요");
@@ -63,13 +97,13 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력하세요");
 		}
 
-		ResultData writeArticleRd = articleService.writeArticle(title, body);
+		ResultData writeArticleRd = articleService.writeArticle(loginedMemberId, title, body);
 
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticleById(id);
 
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
+		return ResultData.newData(writeArticleRd, article);
 	}
 
 	@RequestMapping("/usr/article/getArticle")

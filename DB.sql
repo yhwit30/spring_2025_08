@@ -11,6 +11,7 @@ CREATE TABLE `article` (
     `body` CHAR(100) NOT NULL
 );
 
+
 # 회원 테이블 생성
 CREATE TABLE `member` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -76,6 +77,16 @@ SET `regDate` = NOW(),
     `cellphoneNum` = '01098765432',
     `email` = '회원2@gmail.com'; 
 
+ALTER TABLE `article` ADD COLUMN `memberId` INT UNSIGNED NOT NULL AFTER `updateDate`;
+
+UPDATE `article` 
+SET `memberId` = 2
+WHERE `id` IN (1,2);
+
+UPDATE `article` 
+SET `memberId` = 1
+WHERE `id` IN (3);
+
 SELECT *
 FROM `article`;
 SELECT *
@@ -97,3 +108,5 @@ SET `regDate` = NOW(),
     `loginId` = CONCAT('id', SUBSTRING(RAND() * 1000 FROM 1 FOR 3)),
     `loginPw` = CONCAT('pw', SUBSTRING(RAND() * 1000 FROM 1 FOR 3)),
     `name` = CONCAT('이름', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+    
+
