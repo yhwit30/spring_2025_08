@@ -140,9 +140,7 @@ public class UsrArticleController {
 	public String getArticles(Model model) {
 		List<Article> articles = articleService.getArticles();
 
-		System.out.println(articles.toString());
-		
-		model.addAttribute(articles);
+		model.addAttribute("articles",articles);
 		
 		return "usr/article/list";
 	}

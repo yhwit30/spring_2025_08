@@ -10,21 +10,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Article LIST</title>
+<title>ARTICLE LIST</title>
 </head>
 <body>
 
-	<h1>Article LIST</h1>
+	<h1>ARTICLE LIST</h1>
 
-	<c:forEach
-		var="article"
-		items="${articles }">
-		<div>${article.id }</div>
-		<div>${article.title }</div>
-		<div>${article.body }</div>
-	</c:forEach>
+	<table
+		border="1"
+		cellspacing="0"
+		cellpadding="5"
+		style="width: 100%; border-collapse: collapse;">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Registration Date</th>
+				<th>Title</th>
+				<th>Member ID</th>
+			</tr>
+		</thead>
 
-	<div>123</div>
+		<tbody>
+			<c:forEach
+				var="article"
+				items="${articles }">
+				<tr>
+					<td>${article.id }</td>
+					<td>${article.regDate }</td>
+					<td>${article.title }</td>
+					<td>${article.memberId }</td>
+				</tr>
+
+			</c:forEach>
+
+		</tbody>
+	</table>
 
 </body>
 </html>
