@@ -25,12 +25,12 @@
 	<header>
 		<div class="flex h-20 items-center text-3xl">
 			<a  class="hover:underline" href="/">LOGO</a>
-
+			
 			<div class="flex-grow"></div>
-
+			
 			<ul class="flex">
 				<li>
-					<a class="hover:underline" href="/">HOME</a>
+					<a class="hover:underline pr-5" href="/">HOME</a>
 				</li>
 				<li>
 					<a class="hover:underline" href="../article/list">LIST</a>
