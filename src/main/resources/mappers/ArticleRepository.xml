@@ -30,7 +30,7 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 
-	<select id="getArticleById" parameterType="int"
+	<select id="getForPrintArticle" parameterType="int"
 		resultType="com.example.demo.vo.Article">
 		SELECT a.*, m.nickname AS extra__writer
 		FROM `article` a
@@ -38,7 +38,22 @@
 		ON a.memberId = m.id
 		WHERE a.`id` = #{id}
 	</select>
+	
+	<select id="getArticleById" parameterType="int" resultType="com.example.demo.vo.Article"> 
+		SELECT *
+		FROM `article`
+		WHERE `id` = #{id}
+	</select>
 
+	<select id="getForPrintArticles"
+		resultType="com.example.demo.vo.Article">
+		SELECT a.*, m.nickname AS extra__writer
+		FROM `article` a
+		INNER JOIN `member` m
+		ON a.memberId = m.id
+		ORDER BY a.id DESC
+	</select>
+	
 	<select id="getArticles"
 		resultType="com.example.demo.vo.Article">
 		SELECT a.*, m.nickname AS extra__writer
