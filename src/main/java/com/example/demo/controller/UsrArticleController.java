@@ -56,8 +56,7 @@ public class UsrArticleController {
 
 		article = articleService.getArticleById(id);
 
-		return ResultData.from(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), article,
-				"수정한 글");
+		return ResultData.from(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), article, "수정한 글");
 	}
 
 	@RequestMapping("/usr/article/doDelete")

@@ -29,18 +29,19 @@
 			</tr>
 		</tbody>
 	</table>
-	
+
 	<div class="btns mt-10">
 		<button type="button" onclick="history.back()" class="">뒤로가기</button>
 		<c:if test="${article.userCanModify }">
 			<a href="modify?id=${article.id }">수정</a>
 		</c:if>
-		
-		<a href="delete?id=${article.id }">삭제</a>
+		<c:if test="${article.userCanDelete }">
+			<a href="delete?id=${article.id }">삭제</a>
+		</c:if>
 	</div>
-	
-	
-	
+
+
+
 </section>
 
 <%@ include file="../common/foot.jspf"%>
