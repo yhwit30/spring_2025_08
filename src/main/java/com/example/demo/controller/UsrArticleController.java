@@ -31,7 +31,7 @@ public class UsrArticleController {
 	public ResultData doModify(HttpServletRequest req, int id, String title, String body) {
 
 		// 로그인체크
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 하고 오세요.");
 		}
@@ -59,7 +59,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
 		// 로그인체크
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined() == false) {
 			return Ut.jsReplace("F-A", "로그인 하고 오세요", "../member/login");
 		}
@@ -89,7 +89,7 @@ public class UsrArticleController {
 	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
 
 		// 로그인체크
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 하고 작성하세요.");
 		}
@@ -113,7 +113,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(HttpServletRequest req, int id, Model model) {
 
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
