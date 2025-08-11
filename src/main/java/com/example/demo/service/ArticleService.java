@@ -72,7 +72,7 @@ public class ArticleService {
 			return ResultData.from("F-A", Ut.f("%d번 게시글에 대한 권한 없음", article.getId()));
 		}
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글 수정 가능", article.getId()));
+		return ResultData.from("S-1", Ut.f("%d번 게시글 수정됨", article.getId()));
 	}
 
 	public ResultData userCanDelete(int loginedMemberId, Article article) {

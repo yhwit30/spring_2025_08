@@ -12,8 +12,9 @@ import com.example.demo.service.ArticleService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.ResultData;
+import com.example.demo.vo.Rq;
 
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
@@ -27,16 +28,11 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(HttpSession session, int id, String title, String body) {
+	public ResultData doModify(HttpServletRequest req, int id, String title, String body) {
 
 		// 로그인체크
-		boolean isLogined = false;
-		int loginedMemberId = -1;
-		if (session.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
-		if (isLogined == false) {
+		Rq rq = new Rq(req);
+		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 하고 오세요.");
 		}
 
@@ -47,7 +43,7 @@ public class UsrArticleController {
 		}
 
 		// 권한체크
-		ResultData userCanModifyRd = articleService.userCanModify(loginedMemberId, article);
+		ResultData userCanModifyRd = articleService.userCanModify(rq.getLoginedMemberId(), article);
 		if (userCanModifyRd.getResultCode().startsWith("F")) {
 			return ResultData.from("F-A", userCanModifyRd.getMsg());
 		}
@@ -61,16 +57,10 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpSession session, int id) {
+	public String doDelete(HttpServletRequest req, int id) {
 		// 로그인체크
-		boolean isLogined = false;
-		int loginedMemberId = -1;
-		if (session.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
-		if (isLogined == false) {
-//			return ResultData.from("F-A", "로그인 하고 오세요");
+		Rq rq = new Rq(req);
+		if (rq.isLogined() == false) {
 			return Ut.jsReplace("F-A", "로그인 하고 오세요", "../member/login");
 		}
 
@@ -82,7 +72,7 @@ public class UsrArticleController {
 		}
 
 		// 권한체크
-		ResultData userCanDeleteRd = articleService.userCanDelete(loginedMemberId, article);
+		ResultData userCanDeleteRd = articleService.userCanDelete(rq.getLoginedMemberId(), article);
 		if (userCanDeleteRd.getResultCode().startsWith("F")) {
 //			return ResultData.from("F-A", userCanModifyRd.getMsg());
 			return Ut.jsHistoryBack("F-A", userCanDeleteRd.getMsg());
@@ -96,17 +86,11 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpSession session, String title, String body) {
+	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
 
 		// 로그인체크
-		boolean isLogined = false;
-		int loginedMemberId = -1;
-
-		if (session.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
-		if (isLogined == false) {
+		Rq rq = new Rq(req);
+		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 하고 작성하세요.");
 		}
 
@@ -117,7 +101,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력하세요");
 		}
 
-		ResultData writeArticleRd = articleService.writeArticle(loginedMemberId, title, body);
+		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 
 		int id = (int) writeArticleRd.getData1();
 
@@ -127,19 +111,12 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(HttpSession session, int id, Model model) {
+	public String getArticle(HttpServletRequest req, int id, Model model) {
 
-		// 로그인체크
-		boolean isLogined = false;
-		int loginedMemberId = -1;
+		Rq rq = new Rq(req);
 
-		if (session.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-			loginedMemberId = (int) session.getAttribute("loginedMemberId");
-		}
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
-		Article article = articleService.getForPrintArticle(loginedMemberId, id);
-		
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
