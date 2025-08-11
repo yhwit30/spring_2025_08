@@ -16,7 +16,10 @@ public class UsrHomeController {
 		return "redirect:/usr/home/main";
 	}
 	
-	
+	// git clone test
+	public void gitTest() {
+		System.out.println("git test");
+	}
 	
 
 }
