@@ -36,7 +36,7 @@
 			<a href="modify?id=${article.id }">수정</a>
 		</c:if>
 		<c:if test="${article.userCanDelete }">
-			<a href="delete?id=${article.id }">삭제</a>
+			<a href="doDelete?id=${article.id }">삭제</a>
 		</c:if>
 	</div>
 
