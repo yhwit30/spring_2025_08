@@ -56,7 +56,8 @@ public class UsrArticleController {
 
 		article = articleService.getArticleById(id);
 
-		return ResultData.from(loginedMemberAuthCheckRd.getResultCode(), loginedMemberAuthCheckRd.getMsg(), article, "수정한 글");
+		return ResultData.from(loginedMemberAuthCheckRd.getResultCode(), loginedMemberAuthCheckRd.getMsg(), article,
+				"수정한 글");
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -125,15 +126,24 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(int id, Model model) {
+	public String getArticle(HttpSession session, int id, Model model) {
 
-		Article article = articleService.getArticleById(id);
+		// 로그인체크
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		}
+
+		Article article = articleService.getArticleById(loginedMemberId, id);
 //		if (article == null) {
 //			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다.", id));
 //		}
-		
+
 		model.addAttribute("article", article);
-		
+
 		return "usr/article/detail";
 	}
 
@@ -141,8 +151,8 @@ public class UsrArticleController {
 	public String getArticles(Model model) {
 		List<Article> articles = articleService.getArticles();
 
-		model.addAttribute("articles",articles);
-		
+		model.addAttribute("articles", articles);
+
 		return "usr/article/list";
 	}
 
