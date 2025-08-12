@@ -22,14 +22,6 @@ public class UsrMemberController {
 	@ResponseBody
 	public String doLogout(HttpSession session) {
 
-		boolean isLogined = false;
-		if (session.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-//		if(!isLogined) {
-//			return ResultData.from("F-1", "이미 로그아웃 상태임");
-//		}
-
 		session.removeAttribute("loginedMemberId");
 
 		return Ut.jsReplace("S-1", "로그아웃 되었습니다.", "/");
@@ -51,31 +43,25 @@ public class UsrMemberController {
 		}
 		if (isLogined) {
 			return Ut.jsHistoryBack("F-1", "이미 로그인되어 있음");
-//			return ResultData.from("F-1", "이미 로그인되어 있음");
 		}
 		if (Ut.isEmptyOrNull(loginId)) {
 			return Ut.jsHistoryBack("F-2", "아이디를 입력하세요");
-//			return ResultData.from("F-2", "아이디를 입력하세요");
 		}
 		if (Ut.isEmptyOrNull(loginPw)) {
 			return Ut.jsHistoryBack("F-3", "비밀번호를 입력하세요");
-//			return ResultData.from("F-3", "비밀번호를 입력하세요");
 		}
 
 		Member member = memberService.getMemberByLoginId(loginId);
 		if (member == null) {
 			return Ut.jsHistoryBack("F-4", Ut.f("%s는 없는 아이디야", loginId));
-//			return ResultData.from("F-4", Ut.f("%s는 없는 아이디야", loginId));
 		}
 		if (member.getLoginPw().equals(loginPw) == false) {
 			return Ut.jsHistoryBack("F-5", "비밀번호가 일치하지 않음");
-//			return ResultData.from("F-5", "비밀번호가 일치하지 않음");
 		}
 
 		session.setAttribute("loginedMemberId", member.getId());
 
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다.", member.getNickname()), "/");
-//		return ResultData.from("S-1", Ut.f("%s님 환영합니다.", member.getNickname()), member, "로그인한 회원");
 
 	}
 
