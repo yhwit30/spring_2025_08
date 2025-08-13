@@ -24,6 +24,10 @@
 				<td>${article.title }</td>
 			</tr>
 			<tr>
+				<th>Body</th>
+				<td>${article.body }</td>
+			</tr>
+			<tr>
 				<th>Writer</th>
 				<td>${article.extra__writer }</td>
 			</tr>
