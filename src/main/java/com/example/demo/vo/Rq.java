@@ -41,8 +41,7 @@ public class Rq {
 		resp.setContentType("text/html;charset=UTF-8");
 		println("<script>");
 		println("alert('rq 클래스 메시지 : " + msg + "');");
-//		println("history.back();");
-		println("location.replace('/');");
+		println("history.back();");
 		println("</script>");
 		
 		resp.getWriter().flush();

@@ -11,7 +11,7 @@
 	<div>
 		<form action="doModify" method="post">
 			<input type="hidden" name="id" value="${article.id }" />
-			<table class="mx-auto" cellpadding="5" style="width: 100%;">
+			<table class="table" cellpadding="5" style="width: 100%;">
 				<tbody>
 					<tr>
 						<th>ID</th>
@@ -32,18 +32,20 @@
 					<tr>
 						<th>Title</th>
 						<td>
-							<input type="text" placeholder="새 제목" value="${article.title }" name="title" autocomplete="off" />
+							<input class="input input-primary input-sm" type="text" placeholder="새 제목" value="${article.title }" name="title" required="required"
+								autocomplete="off" />
 						</td>
 					</tr>
 					<tr>
 						<th>Body</th>
 						<td>
-							<input type="text" placeholder="새 내용" value="${article.body }" name="body" autocomplete="off" />
+							<input class="input input-primary input-sm" type="text" placeholder="새 내용" value="${article.body }" name="body"
+								required="required" autocomplete="off" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="submit" value="수정" />
+							<button class="btn btn-info">수정</button>
 						</td>
 					</tr>
 				</tbody>
@@ -51,7 +53,7 @@
 		</form>
 	</div>
 	<div class="btns mt-10">
-		<button type="button" onclick="history.back()" class="">뒤로가기</button>
+		<button class="btn btn-info" type="button" onclick="history.back()" >뒤로가기</button>
 		<c:if test="${article.userCanDelete }">
 			<a href="doDelete?id=${article.id }">삭제</a>
 		</c:if>

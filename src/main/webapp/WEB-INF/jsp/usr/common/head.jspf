@@ -15,6 +15,9 @@
 <!-- 테일윈드 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.4/tailwind.min.css">
 
+<!-- 테일윈드 데이지UI -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/5.0.50/daisyui.css" />
+
 <!DOCTYPE html>
 <html>
 <head>

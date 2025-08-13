@@ -15,4 +15,6 @@
 
 <h1>MAIN page</h1>
 
+<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur explicabo atque doloremque ullam ducimus odit excepturi quod maxime fugit architecto neque cumque ex nemo vero repellat obcaecati aliquid sed nobis.</div>
+
 <%@ include file="../common/foot.jspf"%>

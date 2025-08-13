@@ -8,8 +8,7 @@
 
 
 <section class="mt-8 text-xl px-4">
-	<table class="mx-auto" cellpadding="5" style="width: 100%;">
-
+	<table class="table" cellpadding="5" style="width: 100%;">
 		<tbody>
 			<tr>
 				<th>ID</th>
@@ -35,12 +34,12 @@
 	</table>
 
 	<div class="btns mt-10">
-		<button type="button" onclick="history.back()" class="">뒤로가기</button>
+		<button onclick="history.back()" class="btn btn-info">뒤로가기</button>
 		<c:if test="${article.userCanModify }">
-			<a href="modify?id=${article.id }">수정</a>
+			<a class="btn btn-info" href="modify?id=${article.id }">수정</a>
 		</c:if>
 		<c:if test="${article.userCanDelete }">
-			<a href="doDelete?id=${article.id }">삭제</a>
+			<a class="btn btn-info" href="doDelete?id=${article.id }">삭제</a>
 		</c:if>
 	</div>
 

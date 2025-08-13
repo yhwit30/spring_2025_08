@@ -8,7 +8,7 @@
 
 
 <section class="mt-8 text-xl px-4">
-		<table class="mx-auto" cellpadding="5">
+		<table class="table" cellpadding="5">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -20,7 +20,7 @@
 
 			<tbody>
 				<c:forEach var="article" items="${articles }">
-					<tr>
+					<tr class="hover:bg-base-300">
 						<td>${article.id }</td>
 						<td>${article.regDate }</td>
 						<td><a class="hover:underline" href="detail?id=${article.id }">${article.title }</a></td>

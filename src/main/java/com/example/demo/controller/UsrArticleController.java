@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,12 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/modify")
-	public String modify(int id, Model model) {
+	public String modify(int id, Model model) throws IOException {
 		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		if(article == null) {
-			// todo: Ut.jsHistoryBack이 @responseBody가 없어서 안됨
+			rq.printHistoryBack(Ut.f("%d번 글은 없습니다.", id));
+			return null;
 		}
 
 		model.addAttribute("article", article);
