@@ -22,7 +22,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 //		System.out.println("인터셉터 실행 부분");
 
 //		Rq rq = new Rq(request, response);
-//		request.setAttribute("rq", rq);
+		request.setAttribute("rq", rq);
 		
 		rq.initBeforeActionInterceptor();
 

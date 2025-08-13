@@ -11,6 +11,8 @@ import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class UsrMemberController {
 
@@ -21,7 +23,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout() {
+	public String doLogout(HttpServletRequest req) {
 
 //		Rq rq = (Rq) req.getAttribute("rq");
 		rq.logout();

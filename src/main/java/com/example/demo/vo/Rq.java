@@ -18,8 +18,8 @@ import lombok.Setter;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rq {
 
-	private boolean isLogined;
-	private int loginedMemberId;
+	private boolean isLogined = false;
+	private int loginedMemberId = 0;
 
 	private final HttpServletRequest req;
 	private final HttpServletResponse resp;
@@ -41,9 +41,12 @@ public class Rq {
 		resp.setContentType("text/html;charset=UTF-8");
 		println("<script>");
 		println("alert('rq 클래스 메시지 : " + msg + "');");
-		println("history.back();");
+//		println("history.back();");
+		println("location.replace('/');");
 		println("</script>");
-
+		
+		resp.getWriter().flush();
+		resp.getWriter().close();
 	}
 
 	public void println(String str) throws IOException {
