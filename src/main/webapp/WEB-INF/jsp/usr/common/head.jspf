@@ -24,7 +24,7 @@
 <body>
 
 	<header>
-		<div class="flex h-20 items-center text-3xl">
+		<div class="flex h-20 items-center text-2xl">
 			<a class="hover:underline" href="/">LOGO</a>
 
 			<div class="flex-grow"></div>
@@ -39,10 +39,15 @@
 				<c:if test="${!rq.isLogined() }">
 					<li>
 						<a class="hover:underline" href="../member/login">LOGIN</a>
+					</li>
+					<li>
 						<a class="hover:underline" href="../member/join">JOIN</a>
 					</li>
 				</c:if>
 				<c:if test="${rq.isLogined() }">
+					<li>
+						<a class="hover:underline" href="../article/write">WRITE</a>
+					</li>
 					<li>
 						<a class="hover:underline" href="../member/doLogout">LOGOUT</a>
 					</li>

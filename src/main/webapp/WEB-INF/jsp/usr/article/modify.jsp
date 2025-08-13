@@ -9,7 +9,7 @@
 
 <section class="mt-8 text-xl px-4">
 	<div>
-		<form action="doModify" method="get">
+		<form action="doModify" method="post">
 			<input type="hidden" name="id" value="${article.id }" />
 			<table class="mx-auto" cellpadding="5" style="width: 100%;">
 				<tbody>
