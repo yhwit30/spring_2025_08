@@ -24,6 +24,8 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 //		Rq rq = new Rq(request, response);
 		request.setAttribute("rq", rq);
 		
+		System.out.println("git 확인");
+		
 		rq.initBeforeActionInterceptor();
 
 		return HandlerInterceptor.super.preHandle(request, response, handler);
