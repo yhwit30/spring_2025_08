@@ -38,7 +38,22 @@
 					<a class="hover:underline" href="/">HOME</a>
 				</li>
 				<li>
-					<a class="hover:underline" href="../article/list">LIST</a>
+					<!-- <a class="hover:underline" href="../article/list">LIST</a> -->
+					<div class="dropdown dropdown-hover">
+						<div tabindex="0" role="button" class="btn m-1">LIST</div>
+						<ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+							<li>
+								<a href="/usr/article/list?boardId=1">NOTICE</a>
+							</li>
+							<li>
+								<a href="/usr/article/list?boardId=2">FREE</a>
+							</li>
+							<li>
+								<a href="/usr/article/list?boardId=3">QnA</a>
+							</li>
+						</ul>
+					</div>
+
 				</li>
 				<c:if test="${!rq.isLogined() }">
 					<li>

@@ -143,7 +143,7 @@ public class UsrArticleController {
 		model.addAttribute("articles", articles);
 		model.addAttribute("board", board);
 
-		return "usr/article/list";
+		return "usr/article/list"; 
 	}
 
 }
