@@ -6,6 +6,7 @@
 
 <h1>ARTICLE LIST</h1>
 
+<div>${board.toString()}</div>
 
 <section class="mt-8 text-xl px-4">
 		<table class="table" cellpadding="5">
