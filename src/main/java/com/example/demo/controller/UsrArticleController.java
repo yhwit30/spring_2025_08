@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ArticleService;
@@ -33,9 +34,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/modify")
 	public String modify(int id, Model model) throws IOException {
-		
+
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		if(article == null) {
+		if (article == null) {
 			rq.printHistoryBack(Ut.f("%d번 글은 없습니다.", id));
 			return null;
 		}
@@ -72,8 +73,6 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(int id) {
 
-//		Rq rq = (Rq) req.getAttribute("rq");
-
 		// 게시글 유무체크
 		Article article = articleService.getArticleById(id);
 		if (article == null) {
@@ -96,15 +95,13 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/write")
 	public String showWrite() {
-		
+
 		return "/usr/article/write";
 	}
-	
+
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(String title, String body) {
-
-//		Rq rq = (Rq) req.getAttribute("rq");
+	public String doWrite(String title, String body, String boardId) {
 
 		if (Ut.isEmptyOrNull(title)) {
 			return Ut.jsHistoryBack("F-1", "제목을 입력하세요");
@@ -112,8 +109,11 @@ public class UsrArticleController {
 		if (Ut.isEmptyOrNull(body)) {
 			return Ut.jsHistoryBack("F-2", "내용을 입력하세요");
 		}
+		if (Ut.isEmptyOrNull(boardId)) {
+			return Ut.jsHistoryBack("F-3", "게시판을 선택하시오");
+		}
 
-		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body, boardId);
 
 		int id = (int) writeArticleRd.getData1();
 
@@ -125,8 +125,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(int id, Model model) {
 
-//		Rq rq = (Rq) req.getAttribute("rq");
-
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
@@ -135,15 +133,25 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
-		List<Article> articles = articleService.getArticles();
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,  @RequestParam(defaultValue = "1") int page )  throws IOException{
+		
+		int articlesCount = articleService.getArticleCount(boardId);
+		int itemsInAPage = 10;
+		
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
 
 		Board board = boardService.getBoardById(boardId);
 		
+		if(board == null) {
+			rq.printHistoryBack("존재하지 않는 게시판");
+			return null;
+		}
+		
+		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 		model.addAttribute("board", board);
 
-		return "usr/article/list"; 
+		return "usr/article/list";
 	}
 
 }

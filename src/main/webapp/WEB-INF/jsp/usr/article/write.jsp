@@ -13,14 +13,27 @@
 			<table class="table" cellpadding="5" style="width: 100%;">
 				<tbody>
 					<tr>
-						<th>Title</th>
+						<th>게시판</th>
+						<td>
+							<select name="boardId">
+								<option value="" selected disabled>게시판을 선택하시오</option>
+								<option value="1">공지사항</option>
+								<option value="2">자유게시판</option>
+								<option value="3">질의응답</option>
+							</select>
+						</td>
+					</tr>
+
+
+					<tr>
+						<th>제목</th>
 						<td>
 							<input class="input input-primary input-sm" type="text" placeholder="새 제목" name="title" autocomplete="off"
 								required="required" />
 						</td>
 					</tr>
 					<tr>
-						<th>Body</th>
+						<th>내용</th>
 						<td>
 							<input class="input input-primary input-sm" type="text" placeholder="새 내용" name="body" autocomplete="off"
 								required="required" />
@@ -36,7 +49,7 @@
 		</form>
 	</div>
 	<div class="btns mt-10">
-		<button class="btn btn-info" type="button" onclick="history.back()" ">뒤로가기</button>
+		<button class="btn btn-info" type="button" onclick="history.back()"">뒤로가기</button>
 	</div>
 
 

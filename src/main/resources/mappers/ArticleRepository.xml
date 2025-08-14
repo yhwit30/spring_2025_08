@@ -11,9 +11,9 @@
 		`regDate` = NOW(),
 		`updateDate` = NOW(),
 		`memberId` = #{memberId},
+		`boardId` = #{boardId},
 		`title` = #{title},
-		`body` =
-		#{body}
+		`body` =#{body}
 	</insert>
 
 	<update id="modifyArticle" parameterType="map">
@@ -25,6 +25,13 @@
 		</set>
 		WHERE `id` = #{id}
 	</update>
+
+	<select id="getArticleCount">
+		SELECT COUNT(*) as cnt
+		FROM `article`
+		WHERE `boardId` =
+		#{boardId}
+	</select>
 
 	<select id="getLastInsertId">
 		SELECT LAST_INSERT_ID()
@@ -38,22 +45,34 @@
 		ON a.memberId = m.id
 		WHERE a.`id` = #{id}
 	</select>
-	
-	<select id="getArticleById" parameterType="int" resultType="com.example.demo.vo.Article"> 
+
+	<select id="getArticleById" parameterType="int"
+		resultType="com.example.demo.vo.Article">
 		SELECT *
 		FROM `article`
 		WHERE `id` = #{id}
 	</select>
 
-	<select id="getForPrintArticles"
+	<select id="getForPrintArticles" parameterType="map"
 		resultType="com.example.demo.vo.Article">
 		SELECT a.*, m.nickname AS extra__writer
 		FROM `article` a
-		INNER JOIN `member` m
+		INNER JOIN
+		`member` m
 		ON a.memberId = m.id
+		INNER JOIN `board` b
+		ON
+		a.boardId = b.id
+		WHERE 1
+		<if test="boardId != 0">
+			AND boardId = #{boardId}
+		</if>
 		ORDER BY a.id DESC
+		<if test="limitFrom >= 0">
+			limit #{limitFrom}, #{limitTake}
+		</if>
 	</select>
-	
+
 	<select id="getArticles"
 		resultType="com.example.demo.vo.Article">
 		SELECT a.*, m.nickname AS extra__writer

@@ -20,8 +20,8 @@ public class ArticleService {
 		this.articleRepository = articleRepository;
 	}
 
-	public ResultData writeArticle(int memberId, String title, String body) {
-		articleRepository.writeArticle(memberId, title, body);
+	public ResultData writeArticle(int memberId, String title, String body, String boardId) {
+		articleRepository.writeArticle(memberId, title, body, boardId);
 
 		int id = articleRepository.getLastInsertId();
 
@@ -84,4 +84,24 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 게시글 삭제됨", article.getId()));
 	}
 
+	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page) {
+//		limit 0, 10 --> 1번부터 10까지 1page
+//		limit 10, 10 --> 11번부터 20까지 2page
+//		limit 20, 10 --> 21번부터 20까지 2page
+		
+		int limitFrom = (page - 1) * 10;
+		int limitTake = itemsInAPage;
+		
+		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake);
+	}
+
+	public int getArticleCount(int boardId) {
+		return articleRepository.getArticleCount(boardId);
+	}
+
 }
+
+
+
+
+

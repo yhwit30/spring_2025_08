@@ -7,31 +7,40 @@
 <h1>ARTICLE LIST</h1>
 
 <div>게시판 : ${board.code}</div>
+<div>게시글 : ${articlesCount }</div>
 
 <section class="mt-8 text-xl px-4">
-		<table class="table" cellpadding="5">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Registration Date</th>
-					<th>Title</th>
-					<th>Member ID</th>
+	<table class="table" cellpadding="5">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Registration Date</th>
+				<th>Title</th>
+				<th>Member ID</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<c:forEach var="article" items="${articles }">
+				<tr class="hover:bg-base-300">
+					<td>${article.id }</td>
+					<td>${article.regDate }</td>
+					<td>
+						<a class="hover:underline" href="detail?id=${article.id }">${article.title }</a>
+					</td>
+					<td>${article.memberId }</td>
 				</tr>
-			</thead>
 
-			<tbody>
-				<c:forEach var="article" items="${articles }">
-					<tr class="hover:bg-base-300">
-						<td>${article.id }</td>
-						<td>${article.regDate }</td>
-						<td><a class="hover:underline" href="detail?id=${article.id }">${article.title }</a></td>
-						<td>${article.memberId }</td>
-					</tr>
+			</c:forEach>
 
-				</c:forEach>
+			<c:if test="${empty articles }">
+				<tr>
+					<td colspan="4" style="text-align: center;")>게시글이 없습니다.</td>
+				</tr>
+			</c:if>
 
-			</tbody>
-		</table>
+		</tbody>
+	</table>
 </section>
 
 <%@ include file="../common/foot.jspf"%>
