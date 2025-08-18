@@ -6,7 +6,7 @@
 
 <h1>ARTICLE LIST</h1>
 
-<div>게시판 : ${board.code}</div>
+<div>게시판 : ${board != null ? board.code : '전체 게시판'}</div>
 <div>게시글 : ${articlesCount }</div>
 
 <section class="mt-8 text-xl px-4">
@@ -49,7 +49,6 @@
 			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}"></c:set>
 			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount }"></c:set>
 
-
 			<c:if test="${startPage > 1 }">
 				<a href="?boardId=${boardId }&page=1">1</a>
 			</c:if>
@@ -58,11 +57,9 @@
 				<button>...</button>
 			</c:if>
 
-
 			<c:forEach begin="${startPage }" end="${endPage }" var="i">
 				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?boardId=${boardId }&page=${i }">${i}</a>
 			</c:forEach>
-
 
 			<c:if test="${endPage < (pagesCount - 1) }">
 				<button>...</button>
@@ -74,13 +71,14 @@
 		</div>
 	</div>
 
+<!-- 정적 페이징
 	<div class="flex justify-center mt-4">
 		<div class="page-group">
 			<c:forEach begin="1" end="${pagesCount }" var="i">
 				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?boardId=${boardId }&page=${i }">${i}</a>
 			</c:forEach>
 		</div>
-	</div>
+	</div> -->
 
 
 </section>

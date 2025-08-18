@@ -29,8 +29,10 @@
 	<select id="getArticleCount">
 		SELECT COUNT(*) as cnt
 		FROM `article`
-		WHERE `boardId` =
-		#{boardId}
+		WHERE 1
+		<if test="boardId != 0">
+			AND boardId = #{boardId}
+		</if>
 	</select>
 
 	<select id="getLastInsertId">

@@ -133,23 +133,25 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,  @RequestParam(defaultValue = "1") int page )  throws IOException{
-		
+	public String showList(Model model, @RequestParam(defaultValue = "0") int boardId,
+			@RequestParam(defaultValue = "1") int page) throws IOException {
+
 		int articlesCount = articleService.getArticleCount(boardId);
 		int itemsInAPage = 10;
-		int pagesCount = (int)Math.ceil((double)articlesCount / itemsInAPage);
-		
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
+
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
 
-		Board board = boardService.getBoardById(boardId);
-		
-		if(board == null) {
-			rq.printHistoryBack("존재하지 않는 게시판");
-			return null;
+		Board board = null;
+		if (boardId != 0) {
+			board = boardService.getBoardById(boardId);
+
+			if (board == null) {
+				rq.printHistoryBack("존재하지 않는 게시판");
+				return null;
+			}
 		}
-		
-		System.out.println("articlesCount" + articlesCount);
-		
+
 		model.addAttribute("page", page);
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("pagesCount", pagesCount);
