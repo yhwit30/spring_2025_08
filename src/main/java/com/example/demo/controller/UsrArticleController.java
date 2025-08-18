@@ -134,9 +134,9 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, @RequestParam(defaultValue = "0") int boardId,
-			@RequestParam(defaultValue = "1") int page) throws IOException {
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title") String searchKeywordTypeCode, @RequestParam(defaultValue = "") String searchKeyword) throws IOException {
 
-		int articlesCount = articleService.getArticleCount(boardId);
+		int articlesCount = articleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
 		int itemsInAPage = 10;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
 

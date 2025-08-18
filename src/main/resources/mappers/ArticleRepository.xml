@@ -31,7 +31,21 @@
 		FROM `article`
 		WHERE 1
 		<if test="boardId != 0">
-			AND boardId = #{boardId}
+			AND `boardId` = #{boardId}
+		</if>
+		<if test="searchKeywordTypeCode != ''">
+			<choose>
+				<when test="searchKeywordTypeCode == 'title'">
+					AND `title` LIKE CONCAT('%' , #{searchKeyword}, '%')
+				</when>
+				<when test="searchKeywordTypeCode == 'body'">
+					AND `body` LIKE CONCAT('%' , #{searchKeyword}, '%')
+				</when>
+				<otherwise>
+					AND `title` LIKE CONCAT('%' , #{searchKeyword}, '%') OR
+					`body` LIKE CONCAT('%' , #{searchKeyword}, '%')
+				</otherwise>
+			</choose>
 		</if>
 	</select>
 
@@ -67,7 +81,7 @@
 		a.boardId = b.id
 		WHERE 1
 		<if test="boardId != 0">
-			AND boardId = #{boardId}
+			AND `boardId` = #{boardId}
 		</if>
 		ORDER BY a.id DESC
 		<if test="limitFrom >= 0">
@@ -86,7 +100,7 @@
 
 	<delete id="deleteArticle" parameterType="int">
 		DELETE FROM article
-		WHERE id = #{id}
+		WHERE `id` = #{id}
 	</delete>
 
 </mapper>

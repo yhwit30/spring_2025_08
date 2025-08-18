@@ -11,7 +11,7 @@
 		FROM `board`
 		WHERE 1
 		<if test="boardId != 0">
-			AND `id` = #{id}
+			AND `id` = #{boardId}
 		</if>
 	</select>
 
