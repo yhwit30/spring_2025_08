@@ -50,9 +50,26 @@
 			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount }"></c:set>
 
 
+			<c:if test="${startPage > 1 }">
+				<a href="?boardId=${boardId }&page=1">1</a>
+			</c:if>
+
+			<c:if test="${startPage > 2 }">
+				<button>...</button>
+			</c:if>
+
+
 			<c:forEach begin="${startPage }" end="${endPage }" var="i">
 				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?boardId=${boardId }&page=${i }">${i}</a>
 			</c:forEach>
+
+
+			<c:if test="${endPage < (pagesCount - 1) }">
+				<button>...</button>
+			</c:if>
+			<c:if test="${endPage < pagesCount}">
+				<a href="?boardId=${boardId }&page=${pagesCount}">${pagesCount }</a>
+			</c:if>
 
 		</div>
 	</div>
