@@ -35,12 +35,22 @@
 
 			<c:if test="${empty articles }">
 				<tr>
-					<td colspan="4" style="text-align: center;")>게시글이 없습니다.</td>
+					<td colspan="4" style="text-align: center;">게시글이 없습니다.</td>
 				</tr>
 			</c:if>
 
 		</tbody>
 	</table>
+
+	<div class="flex justify-center mt-4">
+		<div class="btn-group">
+			<c:forEach begin="1" end="${pagesCount }" var="i">
+				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?page=${i }">${i}</a>
+			</c:forEach>
+		</div>
+	</div>
+
+
 </section>
 
 <%@ include file="../common/foot.jspf"%>
