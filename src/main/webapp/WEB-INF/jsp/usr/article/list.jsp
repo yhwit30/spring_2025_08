@@ -42,10 +42,25 @@
 		</tbody>
 	</table>
 
+	<!-- 동적 페이징 -->
 	<div class="flex justify-center mt-4">
-		<div class="btn-group">
+		<div class="page-group">
+			<c:set var="paginationLen" value="3"></c:set>
+			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}"></c:set>
+			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount }"></c:set>
+
+
+			<c:forEach begin="${startPage }" end="${endPage }" var="i">
+				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?boardId=${boardId }&page=${i }">${i}</a>
+			</c:forEach>
+
+		</div>
+	</div>
+
+	<div class="flex justify-center mt-4">
+		<div class="page-group">
 			<c:forEach begin="1" end="${pagesCount }" var="i">
-				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?page=${i }">${i}</a>
+				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?boardId=${boardId }&page=${i }">${i}</a>
 			</c:forEach>
 		</div>
 	</div>

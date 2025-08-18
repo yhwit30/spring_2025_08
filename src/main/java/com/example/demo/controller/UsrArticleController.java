@@ -150,6 +150,8 @@ public class UsrArticleController {
 		
 		System.out.println("articlesCount" + articlesCount);
 		
+		model.addAttribute("page", page);
+		model.addAttribute("boardId", boardId);
 		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
