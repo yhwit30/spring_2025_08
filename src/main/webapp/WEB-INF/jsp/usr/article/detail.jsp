@@ -18,6 +18,12 @@
 				<th>Registration Date</th>
 				<td>${article.regDate }</td>
 			</tr>
+			<c:if test="${article.regDate != article.updateDate }">
+				<tr>
+					<th>Update Date</th>
+					<td>${article.updateDate }</td>
+				</tr>
+			</c:if>
 			<tr>
 				<th>Title</th>
 				<td>${article.title }</td>
