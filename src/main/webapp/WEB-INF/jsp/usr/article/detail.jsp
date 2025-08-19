@@ -30,6 +30,10 @@
 				<th>Writer</th>
 				<td>${article.extra__writer }</td>
 			</tr>
+			<tr>
+				<th>Views</th>
+				<td>${article.hitCount }</td>
+			</tr>
 		</tbody>
 	</table>
 
