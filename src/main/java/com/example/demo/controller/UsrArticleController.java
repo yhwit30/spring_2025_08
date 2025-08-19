@@ -125,6 +125,8 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String getArticle(int id, Model model) {
 
+		articleService.increaseHitCount(id);
+		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);

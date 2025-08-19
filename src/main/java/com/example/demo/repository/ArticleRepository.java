@@ -29,4 +29,6 @@ public interface ArticleRepository {
 
 	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake);
 
+	public void increaseHitCount(int id);
+
 }

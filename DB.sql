@@ -135,6 +135,10 @@ UPDATE `article`
 SET `boardId` = 3
 WHERE `id` IN (5);
 
+ALTER TABLE `article` ADD COLUMN `hitCount` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `body`;
+UPDATE `article`
+SET `hitCount` = `hitCount` + 1
+WHERE `id` = 1;
 
 SELECT *
 FROM `article`;
