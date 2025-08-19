@@ -123,11 +123,21 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(int id, Model model) {
+	public String getArticle(int id, Model model) throws IOException {
 
-		articleService.increaseHitCount(id);
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+		
+		if(increaseHitCountRd.isFail()) {
+			rq.printHistoryBack(increaseHitCountRd.getMsg());
+			return null;
+		}
 		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+		
+//		if (article == null) {
+//			rq.printHistoryBack("존재하지 않는 게시판");
+//			return null;
+//		}
 
 		model.addAttribute("article", article);
 

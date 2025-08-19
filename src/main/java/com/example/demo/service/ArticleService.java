@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +9,17 @@ import org.springframework.stereotype.Service;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.Board;
 import com.example.demo.vo.ResultData;
+import com.example.demo.vo.Rq;
 
 @Service
 public class ArticleService {
 
 	@Autowired
 	private ArticleRepository articleRepository;
+	@Autowired
+	private Rq rq;
 
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
@@ -38,7 +43,7 @@ public class ArticleService {
 		return article;
 	}
 
-	public Article getForPrintArticle(int loginedMemberId, int id) {
+	public Article getForPrintArticle(int loginedMemberId, int id){
 		Article article = articleRepository.getForPrintArticle(id);
 
 		controlForPrintData(loginedMemberId, article);
@@ -84,29 +89,33 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 게시글 삭제됨", article.getId()));
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword) {
+	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode,
+			String searchKeyword) {
 //		limit 0, 10 --> 1번부터 10까지 1page
 //		limit 10, 10 --> 11번부터 20까지 2page
 //		limit 20, 10 --> 21번부터 20까지 2page
-		
+
 		int limitFrom = (page - 1) * 10;
 		int limitTake = itemsInAPage;
-		
-		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword);
+
+		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode,
+				searchKeyword);
 	}
 
 	public int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
 		return articleRepository.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
-	public void increaseHitCount(int id) {
-		articleRepository.increaseHitCount(id);
+	public ResultData increaseHitCount(int id) {
 		
+		int affectedRow = articleRepository.increaseHitCount(id);
+		
+		if (affectedRow == 0) {
+			return ResultData.from("F-1", "해당 게시글 없음ResultData", id, "id");
+		}
+		
+		return ResultData.from("S-1", "조회수 증가", id, "id");
+
 	}
 
 }
-
-
-
-
-
