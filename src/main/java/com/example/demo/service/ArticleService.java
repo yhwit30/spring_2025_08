@@ -84,7 +84,7 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 게시글 삭제됨", article.getId()));
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page) {
+	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword) {
 //		limit 0, 10 --> 1번부터 10까지 1page
 //		limit 10, 10 --> 11번부터 20까지 2page
 //		limit 20, 10 --> 21번부터 20까지 2page
@@ -92,7 +92,7 @@ public class ArticleService {
 		int limitFrom = (page - 1) * 10;
 		int limitTake = itemsInAPage;
 		
-		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake);
+		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword);
 	}
 
 	public int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {

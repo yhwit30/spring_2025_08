@@ -45,12 +45,17 @@
 	<!-- 동적 페이징 -->
 	<div class="flex justify-center mt-4">
 		<div class="page-group">
-			<c:set var="paginationLen" value="3"></c:set>
-			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}"></c:set>
-			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount }"></c:set>
+			<c:set var="paginationLen" value="3" />
+			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}" />
+			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount }" />
+
+			<c:set var="baseUri" value="?boardId=${boardId }" />
+			<c:set var="baseUri" value="${baseUri }&searchKeywordTypeCode=${searchKeywordTypeCode }" />
+			<c:set var="baseUri" value="${baseUri }&searchKeyword=${searchKeyword }" />
+
 
 			<c:if test="${startPage > 1 }">
-				<a href="?boardId=${boardId }&page=1">1</a>
+				<a href="${baseUri }&page=1">1</a>
 			</c:if>
 
 			<c:if test="${startPage > 2 }">
@@ -58,20 +63,20 @@
 			</c:if>
 
 			<c:forEach begin="${startPage }" end="${endPage }" var="i">
-				<a class="${param.page== i ? 'text-blue-700' : '' }" href="?boardId=${boardId }&page=${i }">${i}</a>
+				<a class="${param.page== i ? 'text-blue-700' : '' }" href="${baseUri }&page=${i }">${i}</a>
 			</c:forEach>
 
 			<c:if test="${endPage < (pagesCount - 1) }">
 				<button>...</button>
 			</c:if>
 			<c:if test="${endPage < pagesCount}">
-				<a href="?boardId=${boardId }&page=${pagesCount}">${pagesCount }</a>
+				<a href="${baseUri }&page=${pagesCount}">${pagesCount }</a>
 			</c:if>
 
 		</div>
 	</div>
 
-<!-- 정적 페이징
+	<!-- 정적 페이징
 	<div class="flex justify-center mt-4">
 		<div class="page-group">
 			<c:forEach begin="1" end="${pagesCount }" var="i">
