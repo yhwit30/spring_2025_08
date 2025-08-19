@@ -10,13 +10,44 @@
 <div>게시글 : ${articlesCount }</div>
 
 <section class="mt-8 text-xl px-4">
+
+	<div class="flex">
+		<div class="flex-grow flex-end">
+			<form action="">
+				<input type="hidden" name="boardId" value="${boardId }" />
+
+				<div class="flex">
+
+					<select class="select select-sm select-bordered max-w-xs" name="searchKeywordTypeCode">
+						<option value="title">제목</option>
+						<option value="body">내용</option>
+						<option value="title, body">제목 + 내용</option>
+						<option value="nickname">작성자</option>
+
+					</select>
+
+					<label class="ml-3 input input-bordered input-sm flex items-center gap-2">
+						<input type="text" placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
+						<button type="submit">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+    <path fill-rule="evenodd"
+									d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+									clip-rule="evenodd" />
+  </svg>
+						</button>
+					</label>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<table class="table" cellpadding="5">
 		<thead>
 			<tr>
 				<th>ID</th>
 				<th>Registration Date</th>
 				<th>Title</th>
-				<th>Member ID</th>
+				<th>Writer</th>
 			</tr>
 		</thead>
 
@@ -28,7 +59,7 @@
 					<td>
 						<a class="hover:underline" href="detail?id=${article.id }">${article.title }</a>
 					</td>
-					<td>${article.memberId }</td>
+					<td>${article.extra__writer }</td>
 				</tr>
 
 			</c:forEach>
