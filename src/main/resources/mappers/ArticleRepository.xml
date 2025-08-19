@@ -27,8 +27,10 @@
 	</update>
 
 	<select id="getArticleCount">
-		SELECT COUNT(*) as cnt
-		FROM `article`
+		SELECT COUNT(*) as cnt, m.nickname AS extra__writer
+		FROM `article` as a
+		INNER JOIN `member` AS m
+		ON a.memberId = m.id
 		WHERE 1
 		<if test="boardId != 0">
 			AND `boardId` = #{boardId}
@@ -40,6 +42,9 @@
 				</when>
 				<when test="searchKeywordTypeCode == 'body'">
 					AND `body` LIKE CONCAT('%' , #{searchKeyword}, '%')
+				</when>
+				<when test="searchKeywordTypeCode == 'nickname'">
+					AND `nickname` LIKE CONCAT('%' , #{searchKeyword}, '%')
 				</when>
 				<otherwise>
 					AND `title` LIKE CONCAT('%' , #{searchKeyword}, '%') OR
@@ -90,6 +95,9 @@
 				</when>
 				<when test="searchKeywordTypeCode == 'body'">
 					AND `body` LIKE CONCAT('%' , #{searchKeyword}, '%')
+				</when>
+				<when test="searchKeywordTypeCode == 'nickname'">
+					AND `nickname` LIKE CONCAT('%' , #{searchKeyword}, '%')
 				</when>
 				<otherwise>
 					AND `title` LIKE CONCAT('%' , #{searchKeyword}, '%') OR

@@ -11,17 +11,16 @@
 
 <section class="mt-8 text-xl px-4">
 
-	<div class="flex">
-		<div class="flex-grow flex-end">
+	<div class="flex justify-end">
+		<div class="searchBox">
 			<form action="">
 				<input type="hidden" name="boardId" value="${boardId }" />
 
 				<div class="flex">
-
-					<select class="select select-sm select-bordered max-w-xs" name="searchKeywordTypeCode">
+					<select class="select select-sm select-bordered max-w-xs" name="searchKeywordTypeCode" data-value=${param.searchKeywordTypeCode }>
 						<option value="title">제목</option>
 						<option value="body">내용</option>
-						<option value="title, body">제목 + 내용</option>
+						<option value="title,body">제목 + 내용</option>
 						<option value="nickname">작성자</option>
 
 					</select>
