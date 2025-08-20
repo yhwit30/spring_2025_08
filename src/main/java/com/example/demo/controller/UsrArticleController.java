@@ -123,36 +123,40 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String getArticle(int id, Model model) throws IOException {
+	public String getArticle(int id, Model model) {
 
-		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
-		
-		if(increaseHitCountRd.isFail()) {
-			rq.printHistoryBack(increaseHitCountRd.getMsg());
-			return null;
-		}
-		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		
-//		if (article == null) {
-//			rq.printHistoryBack("존재하지 않는 게시판");
-//			return null;
-//		}
 
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
 	}
 
+	@RequestMapping("/usr/article/hitCount")
+	@ResponseBody
+	public ResultData doIncreaseHitCount(int id) throws IOException  {
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+
+		if (increaseHitCountRd.isFail()) {
+			rq.printHistoryBack(increaseHitCountRd.getMsg());
+			return null;
+		}
+		
+		return ResultData.newData(increaseHitCountRd, articleService.getArticleHitCount(id), "hitCount");
+	}
+
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, @RequestParam(defaultValue = "0") int boardId,
-			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title") String searchKeywordTypeCode, @RequestParam(defaultValue = "") String searchKeyword) throws IOException {
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "title") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword) throws IOException {
 
 		int articlesCount = articleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
 		int itemsInAPage = 10;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
 
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
+				searchKeyword);
 
 		Board board = null;
 		if (boardId != 0) {

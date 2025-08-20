@@ -29,8 +29,16 @@
 	<update id="increaseHitCount">
 		UPDATE `article`
 		SET `hitCount` = `hitCount` + 1
-		WHERE `id` = #{id}
+		WHERE
+		`id` = #{id}
 	</update>
+
+
+	<select id="getArticleHitCount" parameterType="int">
+		SELECT hitCount
+		FROM `article`
+		where `id` = #{id}
+	</select>
 
 	<select id="getArticleCount">
 		SELECT COUNT(*) as cnt, m.nickname AS extra__writer

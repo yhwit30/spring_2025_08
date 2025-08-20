@@ -32,4 +32,6 @@ public interface ArticleRepository {
 
 	public int increaseHitCount(int id);
 
+	public int getArticleHitCount(int id);
+
 }

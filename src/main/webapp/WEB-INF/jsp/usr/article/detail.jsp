@@ -4,6 +4,35 @@
 <c:set var="pageTitle" value="ARTICLE DETAIL"></c:set>
 <%@ include file="../common/head.jspf"%>
 
+<script>
+let $id = parseInt('${param.id}');
+console.log('$id : ' + $id);
+</script>
+
+<script>
+function ArticleDetail__doIncreaseHitCount(){
+	
+	$.get('../article/hitCount', {
+		id : $id,
+		ajaxMode : 'Y'
+	}, function(data){
+		console.log('data : ' + data);
+		console.log('data.data1 : ' + data.data1);
+		console.log('data.msg : ' + data.msg);
+		$('.article-detail__hit-count').html(data.data1);
+	}, 'json');
+}
+
+$(function(){
+<!-- 	ArticleDetail__doIncreaseHitCount(); -->
+	setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
+})
+
+
+</script>
+
+
+
 <h1>ARTICLE DETAIL</h1>
 
 
@@ -39,6 +68,12 @@
 			<tr>
 				<th>Views</th>
 				<td>${article.hitCount }</td>
+			</tr>
+			<tr>
+				<th>Views(Ajax)</th>
+				<td>
+					<span class="article-detail__hit-count">${article.hitCount }</span>
+				</td>
 			</tr>
 		</tbody>
 	</table>
