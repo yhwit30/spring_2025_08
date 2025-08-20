@@ -136,6 +136,7 @@ SET `boardId` = 3
 WHERE `id` IN (5);
 
 ALTER TABLE `article` ADD COLUMN `hitCount` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `body`;
+
 UPDATE `article`
 SET `hitCount` = `hitCount` + 1
 WHERE `id` = 1;
@@ -144,23 +145,105 @@ SELECT *
 FROM `article`;
 SELECT *
 FROM `member`;
+SELECT *
+FROM `board`;
+
+
+
+CREATE TABLE `reactionPoint`(
+     `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `regDate` DATETIME NOT NULL,
+    `updateDate` DATETIME NOT NULL,
+    `memberId` INT NOT NULL,
+    `relTypeCode` CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+    `relId` INT NOT NULL COMMENT '관련 데이터 번호',
+    `point` INT NOT NULL
+);
+# 1번 회원이 1번 글에 좋아요
+INSERT INTO `reactionPoint`
+SET `regDate` = NOW(),
+    `updateDate` = NOW(),
+    `memberId` = 1,
+    relTypeCode = 'article',
+    relId = 1,
+    `point` = 1;
+# 1번 회원이 2번 글에 싫어요 
+INSERT INTO `reactionPoint`
+SET `regDate` = NOW(),
+    `updateDate` = NOW(),
+    `memberId` = 1,
+    relTypeCode = 'article',
+    relId = 2,
+    `point` = -1;
+# 2번 회원이 1번 글에 싫어요
+INSERT INTO `reactionPoint`
+SET `regDate` = NOW(),
+    `updateDate` = NOW(),
+    `memberId` = 2,
+    relTypeCode = 'article',
+    relId = 1,
+    `point` = -1;
+# 2번 회원이 2번 글에 좋아요
+INSERT INTO `reactionPoint`
+SET `regDate` = NOW(),
+    `updateDate` = NOW(),
+    `memberId` = 2,
+    relTypeCode = 'article',
+    relId = 2,
+    `point` = 1;
+# 3번 회원이 1번 글에 좋아요
+INSERT INTO `reactionPoint`
+SET `regDate` = NOW(),
+    `updateDate` = NOW(),
+    `memberId` = 3,
+    relTypeCode = 'article',
+    relId = 1,
+    `point` = 1;
+
+SELECT *
+FROM `reactionPoint`;
 
 
 SELECT a.*, m.nickname
 		FROM `article` a
 		INNER JOIN `member` m
 		ON a.memberId = m.id
-		WHERE a.`id` = 1
+		WHERE a.`id` = 1;
+
+
+SELECT a.*, m.nickname AS extra__writer
+		FROM `article` a
+		INNER JOIN `member` m
+		ON a.memberId = m.id
+		INNER JOIN `board` b
+		ON a.boardId = b.id
+		ORDER BY a.id DESC;
+
+
+
+SELECT COUNT(*)
+FROM `article`
+WHERE `title` LIKE CONCAT('%', 777, '%');
 
 ###############################################
-# 게시글 데이터 대량 생성
+# 게시글 데이터 대량 생성1
+insert into `article` (`regDate`, `updateDate`, `memberId`, `boardId`, `title`, `body`) 
+select now(), now(), floor(rand() * 2) + 2, floor(rand() * 3) + 1, concat('제목__', rand()), concat('내용__', rand())
+from `article`;
+
+select * from `article`;
+
+# 게시글 데이터 대량 생성2
 INSERT INTO `article`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
-    `memberId` = CEILING(RAND() * 3),
+    `memberId` = ceiling(rand() * 3),
     `boardId` = CEILING(RAND() * 3),
     `title` = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
     `body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
+
+
+
 
 
 # 회원 데이터 대량 생성
