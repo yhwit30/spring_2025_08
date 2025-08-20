@@ -24,8 +24,8 @@
 	}
 
 	$(function() {
-		ArticleDetail__doIncreaseHitCount();
-		<!-- setTimeout(ArticleDetail__doIncreaseHitCount, 2000); -->
+		<!-- ArticleDetail__doIncreaseHitCount(); -->
+		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 	})
 </script>
 
@@ -73,6 +73,25 @@
 					<span class="article-detail__hit-count">${article.hitCount }</span>
 				</td>
 			</tr>
+			<tr>
+				<th>LIKE</th>
+				<td>
+					${article.extra__goodReactionPoint }
+				</td>
+			</tr>
+			<tr>
+				<th>DISLIKE</th>
+				<td>
+					${article.extra__badReactionPoint }
+				</td>
+			</tr>
+			<tr>
+				<th>SUM</th>
+				<td>
+					${article.extra__sumReactionPoint }
+				</td>
+			</tr>
+			
 		</tbody>
 	</table>
 

@@ -48,6 +48,9 @@
 				<th>Title</th>
 				<th>Writer</th>
 				<th>Views</th>
+				<th>sumRP</th>
+				<th>likeRP</th>
+				<th>dislikeRP</th>
 			</tr>
 		</thead>
 
@@ -61,6 +64,9 @@
 					</td>
 					<td>${article.extra__writer }</td>
 					<td>${article.hitCount }</td>
+					<td>${article.extra__sumReactionPoint }</td>
+					<td>${article.extra__goodReactionPoint }</td>
+					<td>${article.extra__badReactionPoint }</td>
 				</tr>
 
 			</c:forEach>

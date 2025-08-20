@@ -205,19 +205,50 @@ FROM `reactionPoint`;
 
 
 SELECT a.*, m.nickname
-		FROM `article` a
-		INNER JOIN `member` m
-		ON a.memberId = m.id
-		WHERE a.`id` = 1;
+FROM `article` a
+INNER JOIN `member` m
+ON a.memberId = m.id
+WHERE a.`id` = 1;
 
 
 SELECT a.*, m.nickname AS extra__writer
-		FROM `article` a
-		INNER JOIN `member` m
-		ON a.memberId = m.id
-		INNER JOIN `board` b
-		ON a.boardId = b.id
-		ORDER BY a.id DESC;
+FROM `article` a
+INNER JOIN `member` m
+ON a.memberId = m.id
+INNER JOIN `board` b
+ON a.boardId = b.id
+ORDER BY a.id DESC;
+
+SELECT *
+FROM `article` a
+INNER JOIN `member` m
+ON a.memberId = m.id
+LEFT JOIN `reactionPoint` rp
+ON a.id = rp.relId AND rp.relTypeCode = 'article';
+
+# 서브쿼리
+SELECT a.*, IFNULL(SUM(rp.point), 0) AS 'extra__sumReactionPoint', 
+IFNULL(SUM(IF(rp.point > 0, rp.point, 0)), 0) AS 'extra__goodReactionPoint',
+IFNULL(SUM(IF(rp.point < 0, rp.point, 0)),0) AS 'extra__badReactionPoint'
+FROM (SELECT a.*, m.nickname AS extra__writer
+    FROM `article` a
+    INNER JOIN `member` m
+    ON a.memberId = m.id) AS a
+LEFT JOIN `reactionPoint` AS rp
+ON a.id = rp.relId AND rp.relTypeCode = 'article'
+GROUP BY a.id;
+
+
+# join
+SELECT a.*, IFNULL(SUM(rp.point), 0) AS 'extra__sumReactionPoint', 
+IFNULL(SUM(IF(rp.point > 0, rp.point, 0)), 0) AS 'extra__goodReactionPoint',
+IFNULL(SUM(IF(rp.point < 0, rp.point, 0)),0) AS 'extra__badReactionPoint'
+FROM  `article` a
+INNER JOIN `member` m
+ON a.memberId = m.id
+LEFT JOIN `reactionPoint` AS rp
+ON a.id = rp.relId AND rp.relTypeCode = 'article'
+WHERE a.id = 1;
 
 
 
@@ -227,11 +258,11 @@ WHERE `title` LIKE CONCAT('%', 777, '%');
 
 ###############################################
 # 게시글 데이터 대량 생성1
-insert into `article` (`regDate`, `updateDate`, `memberId`, `boardId`, `title`, `body`) 
-select now(), now(), floor(rand() * 2) + 2, floor(rand() * 3) + 1, concat('제목__', rand()), concat('내용__', rand())
-from `article`;
+INSERT INTO `article` (`regDate`, `updateDate`, `memberId`, `boardId`, `title`, `body`) 
+SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2, FLOOR(RAND() * 3) + 1, CONCAT('제목__', RAND()), CONCAT('내용__', RAND())
+FROM `article`;
 
-select * from `article`;
+SELECT * FROM `article`;
 
 # 게시글 데이터 대량 생성2
 INSERT INTO `article`
