@@ -147,6 +147,8 @@ SELECT *
 FROM `member`;
 SELECT *
 FROM `board`;
+SELECT *
+FROM `reactionPoint`;
 
 
 
@@ -200,6 +202,31 @@ SET `regDate` = NOW(),
     relId = 1,
     `point` = 1;
 
+
+ALTER TABLE `article` ADD COLUMN `goodReactionPoint` INT UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `article` ADD COLUMN `badReactionPoint` INT UNSIGNED NOT NULL DEFAULT 0;
+
+SELECT *
+FROM `article` a
+INNER JOIN `reactionPoint` rp
+ON a.id = rp.relId;
+
+UPDATE `article` AS a
+INNER JOIN (
+    SELECT rp.relTypeCode, rp.relId, 
+    SUM(IF(rp.point > 0, rp.point, 0)) AS goodReactionPoint,
+    SUM(IF(rp.point < 0, rp.point * -1, 0)) AS badReactionPoint
+    FROM `reactionPoint` rp
+    GROUP BY rp.relTypeCode, rp.relId
+) AS rp_sum
+ON a.id = rp_sum.relId
+SET a.goodReactionPoint = rp_sum.goodReactionPoint,
+    a.badReactionPoint = rp_sum.badReactionPoint;
+
+
+
+SELECT *
+FROM `article`;
 SELECT *
 FROM `reactionPoint`;
 
@@ -213,30 +240,30 @@ WHERE a.`id` = 1;
 
 SELECT a.*, m.nickname AS extra__writer
 FROM `article` a
-INNER JOIN `member` m
+INNER JOIN `MEMBER` m
 ON a.memberId = m.id
 INNER JOIN `board` b
 ON a.boardId = b.id
 ORDER BY a.id DESC;
 
-SELECT *
-FROM `article` a
-INNER JOIN `member` m
-ON a.memberId = m.id
-LEFT JOIN `reactionPoint` rp
-ON a.id = rp.relId AND rp.relTypeCode = 'article';
+select *
+from `article` a
+inner join `MEMBER` m
+on a.memberId = m.id
+left join `reactionPoint` rp
+on a.id = rp.relId and rp.relTypeCode = 'article';
 
 # 서브쿼리
-SELECT a.*, IFNULL(SUM(rp.point), 0) AS 'extra__sumReactionPoint', 
-IFNULL(SUM(IF(rp.point > 0, rp.point, 0)), 0) AS 'extra__goodReactionPoint',
-IFNULL(SUM(IF(rp.point < 0, rp.point, 0)),0) AS 'extra__badReactionPoint'
-FROM (SELECT a.*, m.nickname AS extra__writer
+select a.*, ifnull(sum(rp.point), 0) as 'extra__sumReactionPoint', 
+ifnull(sum(if(rp.point > 0, rp.point, 0)), 0) as 'extra__goodReactionPoint',
+ifnull(sum(if(rp.point < 0, rp.point, 0)),0) as 'extra__badReactionPoint'
+from (SELECT a.*, m.nickname AS extra__writer
     FROM `article` a
-    INNER JOIN `member` m
-    ON a.memberId = m.id) AS a
-LEFT JOIN `reactionPoint` AS rp
+    INNER JOIN `MEMBER` m
+    ON a.memberId = m.id) as a
+left join `reactionPoint` as rp
 ON a.id = rp.relId AND rp.relTypeCode = 'article'
-GROUP BY a.id;
+group by a.id;
 
 
 # join
@@ -268,7 +295,7 @@ SELECT * FROM `article`;
 INSERT INTO `article`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
-    `memberId` = ceiling(rand() * 3),
+    `memberId` = CEILING(RAND() * 3),
     `boardId` = CEILING(RAND() * 3),
     `title` = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
     `body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
