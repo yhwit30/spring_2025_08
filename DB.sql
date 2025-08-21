@@ -224,6 +224,11 @@ SET a.goodReactionPoint = rp_sum.goodReactionPoint,
     a.badReactionPoint = rp_sum.badReactionPoint;
 
 
+SELECT IFNULL(SUM(rp.point), 0)
+FROM `reactionPoint` rp
+WHERE rp.relTypeCode ='article' AND rp.relId = 1 AND
+rp.memberId = 4;
+
 
 SELECT *
 FROM `article`;
@@ -240,30 +245,30 @@ WHERE a.`id` = 1;
 
 SELECT a.*, m.nickname AS extra__writer
 FROM `article` a
-INNER JOIN `MEMBER` m
+INNER JOIN `member` m
 ON a.memberId = m.id
 INNER JOIN `board` b
 ON a.boardId = b.id
 ORDER BY a.id DESC;
 
-select *
-from `article` a
-inner join `MEMBER` m
-on a.memberId = m.id
-left join `reactionPoint` rp
-on a.id = rp.relId and rp.relTypeCode = 'article';
+SELECT *
+FROM `article` a
+INNER JOIN `member` m
+ON a.memberId = m.id
+LEFT JOIN `reactionPoint` rp
+ON a.id = rp.relId AND rp.relTypeCode = 'article';
 
 # 서브쿼리
-select a.*, ifnull(sum(rp.point), 0) as 'extra__sumReactionPoint', 
-ifnull(sum(if(rp.point > 0, rp.point, 0)), 0) as 'extra__goodReactionPoint',
-ifnull(sum(if(rp.point < 0, rp.point, 0)),0) as 'extra__badReactionPoint'
-from (SELECT a.*, m.nickname AS extra__writer
+SELECT a.*, IFNULL(SUM(rp.point), 0) AS 'extra__sumReactionPoint', 
+IFNULL(SUM(IF(rp.point > 0, rp.point, 0)), 0) AS 'extra__goodReactionPoint',
+IFNULL(SUM(IF(rp.point < 0, rp.point, 0)),0) AS 'extra__badReactionPoint'
+FROM (SELECT a.*, m.nickname AS extra__writer
     FROM `article` a
-    INNER JOIN `MEMBER` m
-    ON a.memberId = m.id) as a
-left join `reactionPoint` as rp
+    INNER JOIN `member` m
+    ON a.memberId = m.id) AS a
+LEFT JOIN `reactionPoint` AS rp
 ON a.id = rp.relId AND rp.relTypeCode = 'article'
-group by a.id;
+GROUP BY a.id;
 
 
 # join

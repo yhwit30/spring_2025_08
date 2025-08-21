@@ -74,24 +74,12 @@
 				</td>
 			</tr>
 			<tr>
-				<th>LIKE</th>
-				<td>
-					${article.goodReactionPoint }
-				</td>
+				<th>LIKE / DISLIKE</th>
+					<td>
+					<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}" class="btn btn-sm btn-primary">LIKE ${article.goodReactionPoint }</a>
+					<button class="btn btn-sm btn-error">DISLIKE ${article.badReactionPoint }</button>
+					</td>
 			</tr>
-			<tr>
-				<th>DISLIKE</th>
-				<td>
-					${article.badReactionPoint }
-				</td>
-			</tr>
-			<tr>
-				<th>SUM</th>
-				<td>
-					${userCanReaction }
-				</td>
-			</tr>
-			
 		</tbody>
 	</table>
 

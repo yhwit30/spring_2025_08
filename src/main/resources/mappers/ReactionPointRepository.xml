@@ -8,10 +8,22 @@
 
 	<select id="getSumReactionPoint">
 		SELECT IFNULL(SUM(rp.point), 0)
-		FROM `reactionPoint` rp
+		FROM `reactionPoint`
+		rp
 		WHERE rp.relTypeCode = #{relTypeCode} and rp.relId = #{relId} and
 		rp.memberId = #{loginedMemberId}
 	</select>
+
+	<insert id="increaseReactionPoint">
+		INSERT INTO `reactionPoint`
+		SET `regDate` = NOW(),
+		`updateDate` = NOW(),
+		`memberId` = #{loginedMemberId},
+		`relTypeCode` =
+		#{relTypeCode},
+		`relId` = #{relId},
+		`point` = 1
+	</insert>
 
 </mapper>
 
