@@ -76,19 +76,19 @@
 			<tr>
 				<th>LIKE</th>
 				<td>
-					${article.extra__goodReactionPoint }
+					${article.goodReactionPoint }
 				</td>
 			</tr>
 			<tr>
 				<th>DISLIKE</th>
 				<td>
-					${article.extra__badReactionPoint }
+					${article.badReactionPoint }
 				</td>
 			</tr>
 			<tr>
 				<th>SUM</th>
 				<td>
-					${article.extra__sumReactionPoint }
+					${userCanReaction }
 				</td>
 			</tr>
 			

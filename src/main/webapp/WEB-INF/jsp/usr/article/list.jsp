@@ -65,8 +65,8 @@
 					<td>${article.extra__writer }</td>
 					<td>${article.hitCount }</td>
 					<td>${article.extra__sumReactionPoint }</td>
-					<td>${article.extra__goodReactionPoint }</td>
-					<td>${article.extra__badReactionPoint }</td>
+					<td>${article.goodReactionPoint }</td>
+					<td>${article.badReactionPoint }</td>
 				</tr>
 
 			</c:forEach>
