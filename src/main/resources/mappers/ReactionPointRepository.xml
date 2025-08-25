@@ -14,7 +14,7 @@
 		rp.memberId = #{loginedMemberId}
 	</select>
 
-	<insert id="increaseReactionPoint">
+	<insert id="addGoodReactionPoint">
 		INSERT INTO `reactionPoint`
 		SET `regDate` = NOW(),
 		`updateDate` = NOW(),
@@ -23,6 +23,16 @@
 		#{relTypeCode},
 		`relId` = #{relId},
 		`point` = 1
+	</insert>
+	<insert id="addBadReactionPoint">
+		INSERT INTO `reactionPoint`
+		SET `regDate` = NOW(),
+		`updateDate` = NOW(),
+		`memberId` = #{loginedMemberId},
+		`relTypeCode` =
+		#{relTypeCode},
+		`relId` = #{relId},
+		`point` = -1
 	</insert>
 
 	<delete id="deleteReactionPoint">
