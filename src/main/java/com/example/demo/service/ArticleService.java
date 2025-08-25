@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
-import com.example.demo.vo.Board;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
@@ -120,6 +118,17 @@ public class ArticleService {
 
 	public Object getArticleHitCount(int id) {
 		return articleRepository.getArticleHitCount(id);
+	}
+
+	public ResultData increaseGoodReactionPoint(int relId) {
+
+		int affectedRow = articleRepository.increaseGoodReactionPoint(relId);
+
+		if(affectedRow == 0) {
+			return ResultData.from("F-1", "없는 게시글");
+		}
+		
+		return ResultData.from("S-1", "게시글 좋아요 갱신됨");
 	}
 
 }

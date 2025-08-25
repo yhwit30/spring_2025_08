@@ -11,6 +11,8 @@ public class ReactionPointService {
 	
 	@Autowired
 	private ReactionPointRepository reactionPointRepository;
+	@Autowired
+	private ArticleService articleService;
 
 	public int userCanReaction(int loginedMemberId, String relTypeCode, int relId) {
 
@@ -28,6 +30,12 @@ public class ReactionPointService {
 
 		if(affectedRow != 1) {
 			return ResultData.from("F-2", "좋아요 실패");
+		}
+		
+		switch (relTypeCode) {
+		case "article" : 
+			articleService.increaseGoodReactionPoint(relId);
+			break;
 		}
 		
 		return ResultData.from("S-1", "좋아요!");
