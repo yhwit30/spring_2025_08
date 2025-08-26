@@ -6,7 +6,11 @@
 
 <script>
 	let $id = parseInt('${param.id}');
-	console.log('$id : ' + $id);
+	//console.log('$id : ' + $id);
+	
+	let isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
+	let isAlreadyAddBadRp = ${isAlreadyAddBadRp};
+	
 </script>
 
 <script>
@@ -29,6 +33,22 @@
 	})
 </script>
 
+<script>
+
+	function checkRP(){
+		if(isAlreadyAddGoodRp == true){
+			$('#likeButton').toggleClass('btn-outline');
+		}
+		if(isAlreadyAddBadRp == true){
+			$('#dislikeButton').toggleClass('btn-outline');
+		}
+	}
+	
+	$(function(){
+		checkRP();
+	});
+
+</script>
 
 
 <h1>ARTICLE DETAIL</h1>
@@ -76,8 +96,13 @@
 			<tr>
 				<th>LIKE / DISLIKE</th>
 					<td>
-					<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}" class="btn btn-sm btn-primary">LIKE ${article.goodReactionPoint }</a>
-					<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}"  class="btn btn-sm btn-error">DISLIKE ${article.badReactionPoint }</a>
+					<!-- <a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}" class="btn btn-sm btn-primary">LIKE ${article.goodReactionPoint }</a> -->
+					<button id="likeButton" class="btn btn-sm btn-primary btn-outline" onclick="">LIKE
+					</button>
+					<!-- <a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}"  class="btn btn-sm btn-error">DISLIKE ${article.badReactionPoint }</a> -->
+					<button id="dislikeButton" class="btn btn-sm btn-error btn-outline" onclick="">DISLIKE
+					</button>
+					
 					</td>
 			</tr>
 		</tbody>
