@@ -59,16 +59,74 @@
 				console.log("data1Name : " + data.data1Name);
 				console.log("data2 : " + data.data2);
 				console.log("data2Name : " + data.data2Name);
+				
+				//좋아요, 싫어요 개수 갱신
+				$('.likeCount').text(data.data1);
+				$('.dislikeCount').text(data.data2);
+				//좋아요 취소
+				if(data.resultCode == 'S-1'){ 
+					$('#likeButton').toggleClass('btn-outline');
+				}
+				//좋아요
+				else if(data.resultCode == 'S-2'){ 
+					$('#likeButton').toggleClass('btn-outline');
+				}
+				else if(data.resultCode == 'S-3'){
+					$('#dislikeButton').toggleClass('btn-outline');
+					$('#likeButton').toggleClass('btn-outline');
+				}
+				else{
+					alert(data.msg);
+				}
+				
 			},
 			error : function(jqXHR, textStatus, errorThorwn){
 				console.log('좋아요 오류 발생 : ' + textStatus);
 			}
 		});
-		
 	}
 
 	function doBadReaction(articleId) {
 
+		$.ajax({
+			url : '/usr/reactionPoint/doBadReaction',
+			type : 'POST',
+			data : {
+				relTypeCode : 'article', 
+				relId : articleId
+			},
+			dataType : 'json',
+			success : function(data){
+				console.log(data);
+				console.log("data1 : " + data.data1);
+				console.log("data1Name : " + data.data1Name);
+				console.log("data2 : " + data.data2);
+				console.log("data2Name : " + data.data2Name);
+				
+				//좋아요, 싫어요 개수 갱신
+				$('.likeCount').text(data.data1);
+				$('.dislikeCount').text(data.data2);
+				//싫어요 취소
+				if(data.resultCode == 'S-1'){ 
+					$('#dislikeButton').toggleClass('btn-outline');
+				}
+				//싫어요
+				else if(data.resultCode == 'S-2'){ 
+					$('#dislikeButton').toggleClass('btn-outline');
+				}
+				else if(data.resultCode == 'S-3'){
+					$('#dislikeButton').toggleClass('btn-outline');
+					$('#likeButton').toggleClass('btn-outline');
+				}
+				else{
+					alert(data.msg);
+				}
+				
+			},
+			error : function(jqXHR, textStatus, errorThorwn){
+				console.log('싫어요 오류 발생 : ' + textStatus);
+			}
+		});
 		
 	}
 
@@ -124,9 +182,9 @@
 				<th>LIKE / DISLIKE</th>
 				<td>
 					<!-- <a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}" class="btn btn-sm btn-primary">LIKE ${article.goodReactionPoint }</a> -->
-					<button id="likeButton" class="btn btn-sm btn-primary btn-outline" onclick="doGoodReaction(${param.id})">LIKE ${article.goodReactionPoint }</button>
+					<button id="likeButton" class="btn btn-sm btn-primary btn-outline" onclick="doGoodReaction(${param.id})">LIKE<span class="likeCount">${article.goodReactionPoint }</span></button>
 					<!-- <a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}"  class="btn btn-sm btn-error">DISLIKE ${article.badReactionPoint }</a> -->
-					<button id="dislikeButton" class="btn btn-sm btn-error btn-outline" onclick="doBadReaction(${param.id})">DISLIKE ${article.badReactionPoint }</button>
+					<button id="dislikeButton" class="btn btn-sm btn-error btn-outline" onclick="doBadReaction(${param.id})">DISLIKE <span class="dislikeCount">${article.badReactionPoint }</span></button>
 				</td>
 			</tr>
 		</tbody>
