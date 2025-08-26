@@ -34,30 +34,48 @@
 	</update>
 
 	<update id="increaseGoodReactionPoint" parameterType="int">
-		UPDATE `article`
+		UPDATE
+		`article`
 		SET `goodReactionPoint` = `goodReactionPoint` + 1
 		WHERE
-		`id` = #{relId}
+		`id` =
+		#{relId}
 	</update>
 	<update id="decreaseGoodReactionPoint" parameterType="int">
-		UPDATE `article`
+		UPDATE
+		`article`
 		SET `goodReactionPoint` = `goodReactionPoint` - 1
 		WHERE
-		`id` = #{relId}
+		`id` =
+		#{relId}
 	</update>
 	<update id="increaseBadReactionPoint" parameterType="int">
-		UPDATE `article`
+		UPDATE
+		`article`
 		SET `badReactionPoint` = `badReactionPoint` + 1
 		WHERE
-		`id` = #{relId}
+		`id` =
+		#{relId}
 	</update>
 	<update id="decreaseBadReactionPoint" parameterType="int">
-		UPDATE `article`
+		UPDATE
+		`article`
 		SET `badReactionPoint` = `badReactionPoint` - 1
 		WHERE
-		`id` = #{relId}
+		`id` =
+		#{relId}
 	</update>
 
+	<select id="getGoodRp" parameterType="int">
+		SELECT goodReactionPoint
+		FROM `article`
+		where `id` = #{relId}
+	</select>
+	<select id="getBadRp" parameterType="int">
+		SELECT badReactionPoint
+		FROM `article`
+		where `id` = #{relId}
+	</select>
 	<select id="getArticleHitCount" parameterType="int">
 		SELECT hitCount
 		FROM `article`
