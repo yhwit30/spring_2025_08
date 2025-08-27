@@ -55,7 +55,7 @@
 	<div class="btns mt-10">
 		<button class="btn btn-info" type="button" onclick="history.back()" >뒤로가기</button>
 		<c:if test="${article.userCanDelete }">
-			<a href="doDelete?id=${article.id }">삭제</a>
+			<a class="btn btn-outline" href="doDelete?id=${article.id }" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 		</c:if>
 	</div>
 

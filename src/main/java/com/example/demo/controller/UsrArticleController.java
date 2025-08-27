@@ -132,29 +132,30 @@ public class UsrArticleController {
 
 		// -1 싫어요, 0 표현 안함, 1 좋아요, -2 로그인 안함
 		ResultData userCanReactionRd = reactionPointService.userCanReaction(rq.getLoginedMemberId(), "article", id);
-		
-		
-		
-		
+
 		model.addAttribute("isLogined", rq.isLogined());
 		model.addAttribute("article", article);
-		model.addAttribute("isAlreadyAddGoodRp", reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
-		model.addAttribute("isAlreadyAddBadRp", reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
+		model.addAttribute("isAlreadyAddGoodRp",
+				reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
+		model.addAttribute("isAlreadyAddBadRp",
+				reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
 
 		return "usr/article/detail";
 	}
 
 	@RequestMapping("/usr/article/hitCount")
 	@ResponseBody
-	public ResultData doIncreaseHitCount(int id) throws IOException  {
+	public ResultData doIncreaseHitCount(int id) throws IOException {
 		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
 
 		if (increaseHitCountRd.isFail()) {
 			rq.printHistoryBack(increaseHitCountRd.getMsg());
 			return null;
 		}
-		
-		return ResultData.newData(increaseHitCountRd, articleService.getArticleHitCount(id), "hitCount");
+
+//		return ResultData.newData(increaseHitCountRd, articleService.getArticleHitCount(id), "hitCount");
+		return ResultData.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(),
+				articleService.getArticleHitCount(id), "hitCount", id, "articleId");
 	}
 
 	@RequestMapping("/usr/article/list")

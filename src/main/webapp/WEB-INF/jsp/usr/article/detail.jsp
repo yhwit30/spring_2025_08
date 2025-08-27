@@ -15,6 +15,15 @@
 
 <script>
 	function ArticleDetail__doIncreaseHitCount() {
+		
+		const localStorageKey = 'article__' + $id + '__alreadyViewed';
+		console.log(localStorageKey);
+		
+		if (localStorage.getItem(localStorageKey)){
+			return;
+		}
+		localStorage.setItem(localStorageKey, true);
+		
 
 		$.get('../article/hitCount', {
 			id : $id,
@@ -204,7 +213,7 @@
 			<a class="btn btn-info" href="modify?id=${article.id }">수정</a>
 		</c:if>
 		<c:if test="${article.userCanDelete }">
-			<a class="btn btn-info" href="doDelete?id=${article.id }">삭제</a>
+			<a class="btn btn-info" href="doDelete?id=${article.id }" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 		</c:if>
 	</div>
 
