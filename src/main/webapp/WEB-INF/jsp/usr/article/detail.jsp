@@ -25,9 +25,7 @@
 	}
 
 	$(function() {
-		<!--
-		ArticleDetail__doIncreaseHitCount();
-		-->
+		// ArticleDetail__doIncreaseHitCount();
 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 	})
 </script>
@@ -44,6 +42,12 @@
 	}
 
 	function doGoodReaction(articleId) {
+		
+		if(${!isLogined}){ //로그인 안했어 
+			alert('로그인 하고 오세요');
+			location.replace('/usr/member/login');
+			return;
+		}
 
 		$.ajax({
 			url : '/usr/reactionPoint/doGoodReaction',
@@ -88,6 +92,12 @@
 
 	function doBadReaction(articleId) {
 
+		if(${!isLogined}){ //로그인 안했어 
+			alert('로그인 하고 오세요');
+			location.replace('/usr/member/login');
+			return;
+		}
+		
 		$.ajax({
 			url : '/usr/reactionPoint/doBadReaction',
 			type : 'POST',
@@ -181,9 +191,7 @@
 			<tr>
 				<th>LIKE / DISLIKE</th>
 				<td>
-					<!-- <a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}" class="btn btn-sm btn-primary">LIKE ${article.goodReactionPoint }</a> -->
 					<button id="likeButton" class="btn btn-sm btn-primary btn-outline" onclick="doGoodReaction(${param.id})">LIKE<span class="likeCount">${article.goodReactionPoint }</span></button>
-					<!-- <a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${article.id }&replaceUri=${rq.getCurrentUri()}"  class="btn btn-sm btn-error">DISLIKE ${article.badReactionPoint }</a> -->
 					<button id="dislikeButton" class="btn btn-sm btn-error btn-outline" onclick="doBadReaction(${param.id})">DISLIKE <span class="dislikeCount">${article.badReactionPoint }</span></button>
 				</td>
 			</tr>

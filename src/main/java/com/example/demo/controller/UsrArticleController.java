@@ -133,7 +133,10 @@ public class UsrArticleController {
 		// -1 싫어요, 0 표현 안함, 1 좋아요, -2 로그인 안함
 		ResultData userCanReactionRd = reactionPointService.userCanReaction(rq.getLoginedMemberId(), "article", id);
 		
-//		model.addAttribute("userCanReaction", userCanReaction);
+		
+		
+		
+		model.addAttribute("isLogined", rq.isLogined());
 		model.addAttribute("article", article);
 		model.addAttribute("isAlreadyAddGoodRp", reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "article"));
 		model.addAttribute("isAlreadyAddBadRp", reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "article"));
