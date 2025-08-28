@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
 import com.example.demo.service.ReactionPointService;
+import com.example.demo.service.ReplyService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
+import com.example.demo.vo.Reply;
 import com.example.demo.vo.ResultData;
 import com.example.demo.vo.Rq;
 
@@ -28,6 +30,8 @@ public class UsrArticleController {
 	private BoardService boardService;
 	@Autowired
 	private ReactionPointService reactionPointService;
+	@Autowired
+	private ReplyService replyService;
 	@Autowired
 	private Rq rq;
 
@@ -133,6 +137,9 @@ public class UsrArticleController {
 		// -1 싫어요, 0 표현 안함, 1 좋아요, -2 로그인 안함
 		ResultData userCanReactionRd = reactionPointService.userCanReaction(rq.getLoginedMemberId(), "article", id);
 
+		List<Reply> replies = replyService.getForPrintReplies("article",id);
+		
+		model.addAttribute("replies", replies);
 		model.addAttribute("isLogined", rq.isLogined());
 		model.addAttribute("article", article);
 		model.addAttribute("isAlreadyAddGoodRp",
