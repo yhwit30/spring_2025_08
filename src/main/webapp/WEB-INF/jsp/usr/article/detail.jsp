@@ -224,31 +224,49 @@
 	</div>
 </section>
 
+<script>
+function replyWrite__submit(form){
+	console.log('form.body.value : ', form.body.value);
+	
+	if(form.body.value.length < 3){
+		alert("3글자 이상 입력하시오.");
+		form.body.focus();
+		return;
+	}
+	
+	form.submit();
+}
+</script>
+
 <!-- 댓글 작성란 -->
 <section>
-<c:if test="${rq.isLogined() }">
-	<form action="../reply/doWrite" method="POST">
-		<input type="hidden" name="relTypeCode" value="article" />
-		<input type="hidden" name="relId" value="${article.id}" />
-		<table class="table" border="1" style="width: 100%; border-collapse: collapse;">
+	<c:if test="${rq.isLogined() }">
+		<form action="../reply/doWrite" method="POST" onsubmit="replyWrite__submit(this); return false;">
+			<input type="hidden" name="relTypeCode" value="article" />
+			<input type="hidden" name="relId" value="${article.id}" />
+			<table class="table" border="1" style="width: 100%; border-collapse: collapse;">
 
-			<tbody>
-				<tr>
-					<th>댓글 입력</th>
-					<td>
-						<textarea class="input input-bordered input-sm w-full max-w-xs" name="body" autocomplete="off" type="text" placeholder="댓글 입력란"></textarea>
-					</td>
-					<td>
-						<button class="btn btn-outline btn-sm">작성</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-</c:if>
-<c:if test="${!rq.isLogined() }">
-	<div style="text-align: center; margin-top:20px;">댓글 작성을 하려면 <a href="../member/login" class="btn btn-primary btn-xs">로그인</a>이 필요합니다.</div>
-</c:if>
+				<tbody>
+					<tr>
+						<th>댓글 입력</th>
+						<td>
+							<textarea class="input input-bordered input-sm w-full max-w-xs" name="body" autocomplete="off" type="text" placeholder="댓글 입력란"></textarea>
+						</td>
+						<td>
+							<button class="btn btn-outline btn-sm">작성</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</c:if>
+	<c:if test="${!rq.isLogined() }">
+		<div style="text-align: center; margin-top: 20px;">
+			댓글 작성을 하려면
+			<a href="../member/login" class="btn btn-primary btn-xs">로그인</a>
+			이 필요합니다.
+		</div>
+	</c:if>
 
 </section>
 <!-- ai 활용한 댓글 목록 ui -->
