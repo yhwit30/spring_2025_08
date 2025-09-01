@@ -224,8 +224,34 @@
 	</div>
 </section>
 
+<!-- 댓글 작성란 -->
+<section>
+<c:if test="${rq.isLogined() }">
+	<form action="../reply/doWrite" method="POST">
+		<input type="hidden" name="relTypeCode" value="article" />
+		<input type="hidden" name="relId" value="${article.id}" />
+		<table class="table" border="1" style="width: 100%; border-collapse: collapse;">
 
-<!-- ai 활용한 댓글창 ui -->
+			<tbody>
+				<tr>
+					<th>댓글 입력</th>
+					<td>
+						<textarea class="input input-bordered input-sm w-full max-w-xs" name="body" autocomplete="off" type="text" placeholder="댓글 입력란"></textarea>
+					</td>
+					<td>
+						<button class="btn btn-outline btn-sm">작성</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</c:if>
+<c:if test="${!rq.isLogined() }">
+	<div style="text-align: center; margin-top:20px;">댓글 작성을 하려면 <a href="../member/login" class="btn btn-primary btn-xs">로그인</a>이 필요합니다.</div>
+</c:if>
+
+</section>
+<!-- ai 활용한 댓글 목록 ui -->
 <div class="space-y-4 mt-6">
 	<c:forEach var="reply" items="${replies}">
 		<div class="chat chat-start">
@@ -243,7 +269,7 @@
 		</div>
 	</c:forEach>
 	<c:if test="${empty replies }">
-		<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">게시글이 없습니다.</div>
+		<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">첫 번째 댓글의 주인공이 되어보세요.</div>
 	</c:if>
 </div>
 

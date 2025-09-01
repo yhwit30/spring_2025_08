@@ -13,6 +13,21 @@
 		ON r.memberId = m.id
 		WHERE r.relTypeCode = #{relTypeCode} and r.relId = #{relId}
 	</select>
+	<select id="getLastInsertId">
+		SELECT LAST_INSERT_ID();
+	</select>
+
+	<insert id="doWrite">
+		INSERT INTO `reply`
+		SET `regDate` = NOW(),
+		`updateDate` = NOW(),
+		`memberId` = #{memberId},
+		`relId` = #{relId},
+		`relTypeCode` = #{relTypeCode},
+		`body` = #{body}
+	</insert>
+
+
 
 </mapper>
 
