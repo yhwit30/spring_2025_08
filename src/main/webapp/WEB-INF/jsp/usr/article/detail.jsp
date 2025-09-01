@@ -159,92 +159,92 @@
 
 <!-- ai 활용한 테이블 ui -->
 <section class="mt-8 px-4">
-  <div class="card bg-base-100 shadow-xl">
-    <div class="card-body">
-      <h2 class="card-title text-2xl font-bold mb-4">${article.title}</h2>
+	<div class="card bg-base-100 shadow-xl">
+		<div class="card-body">
+			<h2 class="card-title text-2xl font-bold mb-4">${article.title}</h2>
 
-      <div class="overflow-x-auto">
-        <table class="table w-full">
-          <tbody>
-            <tr>
-              <th>ID</th>
-              <td>${article.id}</td>
-            </tr>
-            <tr>
-              <th>Registration Date</th>
-              <td>${article.regDate}</td>
-            </tr>
-            <c:if test="${article.regDate != article.updateDate}">
-              <tr>
-                <th>Update Date</th>
-                <td>${article.updateDate}</td>
-              </tr>
-            </c:if>
-            <tr>
-              <th>Body</th>
-              <td class="whitespace-pre-line">${article.body}</td>
-            </tr>
-            <tr>
-              <th>Writer</th>
-              <td>${article.extra__writer}</td>
-            </tr>
-            <tr>
-              <th>Views</th>
-              <td>
-                <span class="article-detail__hit-count">${article.hitCount}</span>
-              </td>
-            </tr>
-            <tr>
-              <th>LIKE / DISLIKE</th>
-              <td class="flex gap-4">
-                <button id="likeButton" class="btn btn-sm btn-outline btn-primary" onclick="doGoodReaction(${param.id})">
-                  👍 LIKE
-                  <span class="likeCount ml-1">${article.goodReactionPoint}</span>
-                </button>
-                <button id="dislikeButton" class="btn btn-sm btn-outline btn-error" onclick="doBadReaction(${param.id})">
-                  👎 DISLIKE
-                  <span class="dislikeCount ml-1">${article.badReactionPoint}</span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+			<div class="overflow-x-auto">
+				<table class="table w-full">
+					<tbody>
+						<tr>
+							<th>ID</th>
+							<td>${article.id}</td>
+						</tr>
+						<tr>
+							<th>Registration Date</th>
+							<td>${article.regDate}</td>
+						</tr>
+						<c:if test="${article.regDate != article.updateDate}">
+							<tr>
+								<th>Update Date</th>
+								<td>${article.updateDate}</td>
+							</tr>
+						</c:if>
+						<tr>
+							<th>Body</th>
+							<td class="whitespace-pre-line">${article.body}</td>
+						</tr>
+						<tr>
+							<th>Writer</th>
+							<td>${article.extra__writer}</td>
+						</tr>
+						<tr>
+							<th>Views</th>
+							<td>
+								<span class="article-detail__hit-count">${article.hitCount}</span>
+							</td>
+						</tr>
+						<tr>
+							<th>LIKE / DISLIKE</th>
+							<td class="flex gap-4">
+								<button id="likeButton" class="btn btn-sm btn-outline btn-primary" onclick="doGoodReaction(${param.id})">
+									👍 LIKE
+									<span class="likeCount ml-1">${article.goodReactionPoint}</span>
+								</button>
+								<button id="dislikeButton" class="btn btn-sm btn-outline btn-error" onclick="doBadReaction(${param.id})">
+									👎 DISLIKE
+									<span class="dislikeCount ml-1">${article.badReactionPoint}</span>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
-      <div class="card-actions justify-end mt-6">
-        <button onclick="history.back()" class="btn btn-info">뒤로가기</button>
-        <c:if test="${article.userCanModify}">
-          <a class="btn btn-warning" href="modify?id=${article.id}">수정</a>
-        </c:if>
-        <c:if test="${article.userCanDelete}">
-          <a class="btn btn-error" href="doDelete?id=${article.id}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-        </c:if>
-      </div>
-    </div>
-  </div>
+			<div class="card-actions justify-end mt-6">
+				<button onclick="history.back()" class="btn btn-info">뒤로가기</button>
+				<c:if test="${article.userCanModify}">
+					<a class="btn btn-warning" href="modify?id=${article.id}">수정</a>
+				</c:if>
+				<c:if test="${article.userCanDelete}">
+					<a class="btn btn-error" href="doDelete?id=${article.id}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+				</c:if>
+			</div>
+		</div>
+	</div>
 </section>
 
 
 <!-- ai 활용한 댓글창 ui -->
-<div class="space-y-4">
-  <c:forEach var="reply" items="${replies}">
-    <div class="chat chat-start">
-      <div class="chat-image avatar">
-        <div class="w-10 rounded-full">
-          <img src="https://api.dicebear.com/6.x/thumbs/svg?seed=${reply.extra__writer}" alt="user" />
-        </div>
-      </div>
-      <div class="chat-header">
-        ${reply.extra__writer}
-        <time class="text-xs opacity-50"> · ${reply.regDate}</time>
-      </div>
-      <div class="chat-bubble">${reply.body}</div>
-      <div class="chat-footer opacity-50 text-sm flex gap-4">
-        👍 ${reply.goodReactionPoint}  
-        👎 ${reply.badReactionPoint}
-      </div>
-    </div>
-  </c:forEach>
+<div class="space-y-4 mt-6">
+	<c:forEach var="reply" items="${replies}">
+		<div class="chat chat-start">
+			<div class="chat-image avatar">
+				<div class="w-10 rounded-full">
+					<img src="https://api.dicebear.com/6.x/thumbs/svg?seed=${reply.extra__writer}" alt="user" />
+				</div>
+			</div>
+			<div class="chat-header">
+				${reply.extra__writer}
+				<time class="text-xs opacity-50"> · ${reply.regDate}</time>
+			</div>
+			<div class="chat-bubble">${reply.body}</div>
+			<div class="chat-footer opacity-50 text-sm flex gap-4">👍 ${reply.goodReactionPoint} 👎 ${reply.badReactionPoint}</div>
+		</div>
+	</c:forEach>
+	<c:if test="${empty replies }">
+		<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">게시글이 없습니다.</div>
+	</c:if>
 </div>
 
 
