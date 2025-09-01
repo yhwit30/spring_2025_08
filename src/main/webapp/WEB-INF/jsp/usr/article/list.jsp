@@ -48,6 +48,7 @@
 				<th>Views</th>
 				<th>likeRP</th>
 				<th>dislikeRP</th>
+				<th>replyCount</th>
 			</tr>
 		</thead>
 
@@ -63,6 +64,7 @@
 					<td>${article.hitCount }</td>
 					<td>${article.goodReactionPoint }</td>
 					<td>${article.badReactionPoint }</td>
+					<td>${article.replyCount }</td>
 				</tr>
 
 			</c:forEach>
