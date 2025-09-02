@@ -8,13 +8,13 @@
 <div>콘솔에 api 데이터 확인 페이지</div>
 
 <script>
-	const API_KEY = ''; // Encoding된 키
+	const API_KEY = '%2BczOQiKpEnorU9I8TbELu0DP9c3DNrENiO4%2Fn2%2Fz5h4ecmec6LdcOy2WXWcHP%2F2TCPAQmHpPoCmhv%2FvFogSagQ%3D%3D'; // Encoding된 키
 
 	async function getAirData() {
 		const url = 'https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty'
 				+ '?serviceKey='
 				+ API_KEY
-				+ '&returnType=json&numOfRows=5&pageNo=1&sidoName=서울';
+				+ '&returnType=json&numOfRows=5&pageNo=1&sidoName=대전';
 
 		try {
 			const response = await

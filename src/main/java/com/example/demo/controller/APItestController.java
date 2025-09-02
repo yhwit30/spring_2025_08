@@ -9,4 +9,8 @@ public class APItestController {
 	public String showAPITest() {
 		return "/usr/home/APItest";
 	}
+	@RequestMapping("/usr/home/APItest2")
+	public String showAPITest2() {
+		return "/usr/home/APItest2";
+	}
 }
