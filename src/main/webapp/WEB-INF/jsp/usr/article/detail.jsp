@@ -269,6 +269,26 @@ function replyWrite__submit(form){
 	</c:if>
 
 </section>
+
+<script>
+function toggleModifybtn(){
+	
+	$('#modify-btn').hide();
+	$('#save-btn').show();
+	$('#reply-body').hide();
+	$('#modify-form').show();
+	
+}
+function doModifyReply(){
+	
+	$('#modify-btn').show();
+	$('#save-btn').hide();
+	$('#reply-body').show();
+	$('#modify-form').hide();
+}
+</script>
+
+
 <!-- ai 활용한 댓글 목록 ui -->
 <div class="space-y-4 mt-6">
 	<c:forEach var="reply" items="${replies}">
@@ -282,10 +302,19 @@ function replyWrite__submit(form){
 				${reply.extra__writer}
 				<time class="text-xs opacity-50"> · ${reply.regDate}</time>
 			</div>
-			<div class="chat-bubble">${reply.body}</div>
+			
+			<div class="chat-bubble" id="reply-body">${reply.body}</div>
+			<form class="chat-bubble" action="#" style="display:none;"  id="modify-form">
+				<input type="text" value="${reply.body }" />			
+			</form>
+			
 			<div class="chat-footer opacity-50 text-sm flex gap-4">
 				👍 ${reply.goodReactionPoint} 👎 ${reply.badReactionPoint}
-				<button onclick="../reply/modify?id=${reply.id}">수정</button>
+				
+				<button onclick="toggleModifybtn()" id="modify-btn">수정</button>
+				<button onclick="doModifyReply()" id="save-btn" style="display:none;">저장</button>
+				
+				
 				<a href="../reply/doDelete?id=${reply.id}&articleId=${article.id}">삭제</a>
 			</div>
 		
