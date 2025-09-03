@@ -283,7 +283,13 @@ function replyWrite__submit(form){
 				<time class="text-xs opacity-50"> · ${reply.regDate}</time>
 			</div>
 			<div class="chat-bubble">${reply.body}</div>
-			<div class="chat-footer opacity-50 text-sm flex gap-4">👍 ${reply.goodReactionPoint} 👎 ${reply.badReactionPoint}</div>
+			<div class="chat-footer opacity-50 text-sm flex gap-4">
+				👍 ${reply.goodReactionPoint} 👎 ${reply.badReactionPoint}
+				<button onclick="../reply/modify?id=${reply.id}">수정</button>
+				<a href="../reply/doDelete?id=${reply.id}&articleId=${article.id}">삭제</a>
+			</div>
+		
+			
 		</div>
 	</c:forEach>
 	<c:if test="${empty replies }">

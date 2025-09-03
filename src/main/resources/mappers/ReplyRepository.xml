@@ -3,15 +3,26 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper
-	namespace="com.example.demo.repository.ReplyRepository">
+<mapper namespace="com.example.demo.repository.ReplyRepository">
 
+	<delete id="deleteReply" parameterType="int">
+		DELETE FROM `reply`
+		WHERE `id` = #{id}
+	</delete>
+	<select id="getReplyById" parameterType="int"
+		resultType="com.example.demo.vo.Reply">
+		SELECT *
+		FROM `reply`
+		WHERE `id` = #{id}
+	</select>
 	<select id="getForPrintReplies">
 		SELECT *, m.nickname as extra__writer
 		FROM `reply` r
 		INNER JOIN `member` m
 		ON r.memberId = m.id
-		WHERE r.relTypeCode = #{relTypeCode} and r.relId = #{relId}
+		WHERE r.relTypeCode =
+		#{relTypeCode} and r.relId = #{relId}
+		ORDER BY r.id DESC
 	</select>
 	<select id="getLastInsertId">
 		SELECT LAST_INSERT_ID();
