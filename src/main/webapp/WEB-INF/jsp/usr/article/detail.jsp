@@ -271,20 +271,40 @@ function replyWrite__submit(form){
 </section>
 
 <script>
-function toggleModifybtn(){
-	
-	$('#modify-btn').hide();
-	$('#save-btn').show();
-	$('#reply-body').hide();
-	$('#modify-form').show();
+function toggleModifybtn(replyId){
+	$('#modify-btn-' + replyId).hide();
+	$('#save-btn-' + replyId).show();
+	$('#reply-body-' + replyId).hide();
+	$('#modify-form-' + replyId).show();
 	
 }
-function doModifyReply(){
+function doModifyReply(replyId){
 	
-	$('#modify-btn').show();
-	$('#save-btn').hide();
-	$('#reply-body').show();
-	$('#modify-form').hide();
+	// 수정기능
+	let form = $('#modify-form-' + replyId);
+	let text = form.find('input[name="reply-text-'+replyId + '"]').val();
+	console.log('input val : ' + text);
+	let action = form.attr('action');
+	console.log('action : '+ action);
+	
+	$.ajax({
+		url: '/usr/reply/doModify',
+		type: 'POST',
+		data: {
+			id : replyId,
+			body : text
+		},
+		success: function(data){
+			$('#modify-btn-' + replyId).show();
+			$('#save-btn-' + replyId).hide();
+			$('#reply-body-'+replyId).text(data);
+			$('#reply-body-' + replyId).show();
+			$('#modify-form-' + replyId).hide();
+		}, 
+		error: function(xhr, status, error){
+			alert('댓글 수정 실패 : ' + error);
+		}
+	})
 }
 </script>
 
@@ -303,16 +323,16 @@ function doModifyReply(){
 				<time class="text-xs opacity-50"> · ${reply.regDate}</time>
 			</div>
 			
-			<div class="chat-bubble" id="reply-body">${reply.body}</div>
-			<form class="chat-bubble" action="#" style="display:none;"  id="modify-form">
-				<input type="text" value="${reply.body }" />			
+			<div class="chat-bubble" id="reply-body-${reply.id }">${reply.body}</div>
+			<form class="chat-bubble" action="/usr/reply/doModify" style="display:none;"  id="modify-form-${reply.id }">
+				<input name="reply-text-${reply.id }" type="text" value="${reply.body }" />			
 			</form>
 			
 			<div class="chat-footer opacity-50 text-sm flex gap-4">
 				👍 ${reply.goodReactionPoint} 👎 ${reply.badReactionPoint}
 				
-				<button onclick="toggleModifybtn()" id="modify-btn">수정</button>
-				<button onclick="doModifyReply()" id="save-btn" style="display:none;">저장</button>
+				<button onclick="toggleModifybtn('${reply.id }');" id="modify-btn-${reply.id }">수정</button>
+				<button onclick="doModifyReply('${reply.id }');" id="save-btn-${reply.id }" style="display:none;">저장</button>
 				
 				
 				<a href="../reply/doDelete?id=${reply.id}&articleId=${article.id}">삭제</a>

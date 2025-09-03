@@ -55,7 +55,14 @@ public class UsrReplyController {
 
 		replyService.deleteReply(id);
 
-		// todo
-		return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../article/detail?id=" + articleId);
+		return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(),
+				"../article/detail?id=" + articleId);
+	}
+
+	@RequestMapping("/usr/reply/doModify")
+	@ResponseBody
+	public String doModify(int id, String body) {
+
+		return "수정된 댓글입니다.";
 	}
 }
