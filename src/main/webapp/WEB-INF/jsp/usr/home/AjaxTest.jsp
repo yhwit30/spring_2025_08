@@ -50,12 +50,16 @@
 		let num1 = form.num1.value;
 		let num2 = form.num2.value;
 
-		$.get(action, {
+		$.get("/usr/home/doPlusJson", {
 			num1 : num1,
 			num2 : num2
 
 		}, function(data) {
-			$('.rs2').text(data);
+			console.log(data);
+			$('.rs2').text(data.rs);
+			$('.rs-msg2').text(data.msg);
+			$('.rs-code2').text(data.code);
+			
 		}, 'json');
 	}
 	function callAjax3() {
