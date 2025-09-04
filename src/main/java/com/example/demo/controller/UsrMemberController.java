@@ -49,10 +49,15 @@ public class UsrMemberController {
 		}
 
 		Member member = memberService.getMemberByLoginId(loginId);
+
+//		System.out.println("member password : " + member.getLoginPw());
+//		System.out.println("member password : " + Ut.sha256(loginPw));
+
 		if (member == null) {
 			return Ut.jsHistoryBack("F-4", Ut.f("%s는 없는 아이디야", loginId));
 		}
-		if (member.getLoginPw().equals(loginPw) == false) {
+
+		if (member.getLoginPw().equals(Ut.sha256(loginPw)) == false) {
 			return Ut.jsHistoryBack("F-5", "비밀번호가 일치하지 않음");
 		}
 
@@ -62,7 +67,7 @@ public class UsrMemberController {
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다.", member.getNickname()), afterLoginUri);
 
 	}
-	
+
 	@RequestMapping("/usr/member/join")
 	public String showJoin() {
 		return "/usr/member/join";

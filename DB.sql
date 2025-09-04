@@ -85,7 +85,7 @@ INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'admin',
-    `loginPw` = 'admin',
+    `loginPw` = SHA2('admin', 256),
     `authLevel` = 7,
     `name` = '관리자',
     `nickname` = '관리자_닉네임',
@@ -95,7 +95,7 @@ INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'test1',
-    `loginPw` = 'test1',
+    `loginPw` = SHA2('test1',256),
     `authLevel` = 3,
     `name` = '회원1',
     `nickname` = '회원1_닉네임',
@@ -105,7 +105,7 @@ INSERT INTO `member`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
     `loginId` = 'test2',
-    `loginPw` = 'test2',
+    `loginPw` = SHA2('test2',256),
     `authLevel` = 3,
     `name` = '회원2',
     `nickname` = '회원2_닉네임',
@@ -315,6 +315,8 @@ SELECT *
 FROM `reactionPoint`;
 
 
+SELECT LAST_INSERT_ID();
+
 SELECT *
 FROM `article` a
 INNER JOIN `reactionPoint` rp
@@ -322,25 +324,25 @@ ON a.id = rp.relId;
 
 UPDATE `article` AS a
 INNER JOIN (
-    SELECT rp.relTypeCode, rp.relId, 
-    SUM(IF(rp.point > 0, rp.point, 0)) AS goodReactionPoint,
+    select rp.relTypeCode, rp.relId, 
+    sum(if(rp.point > 0, rp.point, 0)) as goodReactionPoint,
     SUM(IF(rp.point < 0, rp.point * -1, 0)) AS badReactionPoint
-    FROM `reactionPoint` rp
-    GROUP BY rp.relTypeCode, rp.relId
-) AS rp_sum
-ON a.id = rp_sum.relId
-SET a.goodReactionPoint = rp_sum.goodReactionPoint,
+    from `reactionPoint` rp
+    group by rp.relTypeCode, rp.relId
+) as rp_sum
+on a.id = rp_sum.relId
+set a.goodReactionPoint = rp_sum.goodReactionPoint,
     a.badReactionPoint = rp_sum.badReactionPoint;
 
 
-SELECT IFNULL(SUM(rp.point), 0)
+SELECT IFNULL(sum(rp.point), 0)
 FROM `reactionPoint` rp
-WHERE rp.relTypeCode ='article' AND rp.relId = 1 AND
+WHERE rp.relTypeCode ='article' and rp.relId = 1 and
 rp.memberId = 4;
 
 
-SELECT *
-FROM `article`;
+select *
+from `article`;
 SELECT *
 FROM `reactionPoint`;
 
@@ -360,24 +362,24 @@ INNER JOIN `board` b
 ON a.boardId = b.id
 ORDER BY a.id DESC;
 
-SELECT *
-FROM `article` a
-INNER JOIN `member` m
-ON a.memberId = m.id
-LEFT JOIN `reactionPoint` rp
-ON a.id = rp.relId AND rp.relTypeCode = 'article';
+select *
+from `article` a
+inner join `member` m
+on a.memberId = m.id
+left join `reactionPoint` rp
+on a.id = rp.relId and rp.relTypeCode = 'article';
 
 # 서브쿼리
-SELECT a.*, IFNULL(SUM(rp.point), 0) AS 'extra__sumReactionPoint', 
-IFNULL(SUM(IF(rp.point > 0, rp.point, 0)), 0) AS 'extra__goodReactionPoint',
-IFNULL(SUM(IF(rp.point < 0, rp.point, 0)),0) AS 'extra__badReactionPoint'
-FROM (SELECT a.*, m.nickname AS extra__writer
+select a.*, ifnull(sum(rp.point), 0) as 'extra__sumReactionPoint', 
+ifnull(sum(if(rp.point > 0, rp.point, 0)), 0) as 'extra__goodReactionPoint',
+ifnull(sum(if(rp.point < 0, rp.point, 0)),0) as 'extra__badReactionPoint'
+from (SELECT a.*, m.nickname AS extra__writer
     FROM `article` a
     INNER JOIN `member` m
-    ON a.memberId = m.id) AS a
-LEFT JOIN `reactionPoint` AS rp
+    ON a.memberId = m.id) as a
+left join `reactionPoint` as rp
 ON a.id = rp.relId AND rp.relTypeCode = 'article'
-GROUP BY a.id;
+group by a.id;
 
 
 # join
@@ -389,27 +391,27 @@ INNER JOIN `member` m
 ON a.memberId = m.id
 LEFT JOIN `reactionPoint` AS rp
 ON a.id = rp.relId AND rp.relTypeCode = 'article'
-WHERE a.id = 1;
+where a.id = 1;
 
 
 
-SELECT COUNT(*)
+SELECT count(*)
 FROM `article`
-WHERE `title` LIKE CONCAT('%', 777, '%');
+where `title` LIKE CONCAT('%', 777, '%');
 
 ###############################################
 # 게시글 데이터 대량 생성1
-INSERT INTO `article` (`regDate`, `updateDate`, `memberId`, `boardId`, `title`, `body`) 
-SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2, FLOOR(RAND() * 3) + 1, CONCAT('제목__', RAND()), CONCAT('내용__', RAND())
-FROM `article`;
+insert into `article` (`regDate`, `updateDate`, `memberId`, `boardId`, `title`, `body`) 
+select now(), now(), floor(rand() * 2) + 2, floor(rand() * 3) + 1, concat('제목__', rand()), concat('내용__', rand())
+from `article`;
 
-SELECT * FROM `article`;
+select * from `article`;
 
 # 게시글 데이터 대량 생성2
 INSERT INTO `article`
 SET `regDate` = NOW(),
     `updateDate` = NOW(),
-    `memberId` = CEILING(RAND() * 3),
+    `memberId` = ceiling(rand() * 3),
     `boardId` = CEILING(RAND() * 3),
     `title` = CONCAT('제목', SUBSTRING(RAND() * 1000 FROM 1 FOR 2)),
     `body` = CONCAT('내용', SUBSTRING(RAND() * 1000 FROM 1 FOR 2));
