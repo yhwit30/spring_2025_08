@@ -78,7 +78,8 @@ public class UsrReplyController {
 		replyService.modifyReply(id, body);
 
 		reply = replyService.getReplyById(id);
-
-		return Ut.jsReplace(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), "../article/detail?id=" + id);
+		
+		return reply.getBody();
+//		return Ut.jsReplace(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), "../article/detail?id=" + id);
 	}
 }
