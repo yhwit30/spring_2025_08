@@ -82,6 +82,10 @@ public class Rq {
 		return currentUri;
 		
 	}
+	
+	public String getLoginUri() {
+		return "../member/login?afterLoginUri=" + getCurrentUri();
+	}
 
 }
 

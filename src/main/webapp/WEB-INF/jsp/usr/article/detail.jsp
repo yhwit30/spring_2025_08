@@ -263,7 +263,7 @@ function replyWrite__submit(form){
 	<c:if test="${!rq.isLogined() }">
 		<div style="text-align: center; margin-top: 20px;">
 			댓글 작성을 하려면
-			<a href="../member/login" class="btn btn-primary btn-xs">로그인</a>
+			<a href="${rq.getLoginUri() }" class="btn btn-primary btn-xs">로그인</a>
 			이 필요합니다.
 		</div>
 	</c:if>

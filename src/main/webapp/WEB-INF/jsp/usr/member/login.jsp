@@ -8,6 +8,7 @@
 <section class="mt-8 text-xl px-4">
 	<div>
 		<form action="doLogin" method="post">
+		<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri }" />
 			<table border="1" class="table" cellpadding="5">
 				<tbody>
 					<tr>
