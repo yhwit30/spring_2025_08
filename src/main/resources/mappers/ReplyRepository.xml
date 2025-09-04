@@ -5,9 +5,19 @@
 
 <mapper namespace="com.example.demo.repository.ReplyRepository">
 
+
+	<update id="modifyReply" parameterType="map">
+		UPDATE `reply`
+		<set>
+			<if test="body != null and body != ''">`body` = #{body},</if>
+			`updateDate` = NOW()
+		</set>
+		WHERE `id` = #{id}
+	</update>
 	<delete id="deleteReply" parameterType="int">
 		DELETE FROM `reply`
-		WHERE `id` = #{id}
+		WHERE
+		`id` = #{id}
 	</delete>
 	<select id="getReplyById" parameterType="int"
 		resultType="com.example.demo.vo.Reply">

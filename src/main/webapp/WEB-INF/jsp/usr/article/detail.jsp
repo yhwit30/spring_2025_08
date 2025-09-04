@@ -322,23 +322,24 @@ function doModifyReply(replyId){
 				${reply.extra__writer}
 				<time class="text-xs opacity-50"> · ${reply.regDate}</time>
 			</div>
-			
+
 			<div class="chat-bubble" id="reply-body-${reply.id }">${reply.body}</div>
-			<form class="chat-bubble" action="/usr/reply/doModify" style="display:none;"  id="modify-form-${reply.id }">
-				<input name="reply-text-${reply.id }" type="text" value="${reply.body }" />			
+			<form class="chat-bubble" action="/usr/reply/doModify" style="display: none;" id="modify-form-${reply.id }">
+				<input name="reply-text-${reply.id }" type="text" value="${reply.body }" />
 			</form>
-			
+
 			<div class="chat-footer opacity-50 text-sm flex gap-4">
 				👍 ${reply.goodReactionPoint} 👎 ${reply.badReactionPoint}
-				
-				<button onclick="toggleModifybtn('${reply.id }');" id="modify-btn-${reply.id }">수정</button>
-				<button onclick="doModifyReply('${reply.id }');" id="save-btn-${reply.id }" style="display:none;">저장</button>
-				
-				
-				<a href="../reply/doDelete?id=${reply.id}&articleId=${article.id}">삭제</a>
+				<c:if test="${reply.userCanModify }">
+					<button onclick="toggleModifybtn('${reply.id }');" id="modify-btn-${reply.id }">수정</button>
+					<button onclick="doModifyReply('${reply.id }');" id="save-btn-${reply.id }" style="display: none;">저장</button>
+				</c:if>
+				<c:if test="${reply.userCanDelete }">
+					<a href="../reply/doDelete?id=${reply.id}&articleId=${article.id}">삭제</a>
+				</c:if>
 			</div>
-		
-			
+
+
 		</div>
 	</c:forEach>
 	<c:if test="${empty replies }">

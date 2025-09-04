@@ -137,7 +137,7 @@ public class UsrArticleController {
 		// -1 싫어요, 0 표현 안함, 1 좋아요, -2 로그인 안함
 		ResultData userCanReactionRd = reactionPointService.userCanReaction(rq.getLoginedMemberId(), "article", id);
 
-		List<Reply> replies = replyService.getForPrintReplies("article",id);
+		List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "article",id);
 		
 		model.addAttribute("replies", replies);
 		model.addAttribute("isLogined", rq.isLogined());

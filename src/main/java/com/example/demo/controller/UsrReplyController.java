@@ -63,6 +63,22 @@ public class UsrReplyController {
 	@ResponseBody
 	public String doModify(int id, String body) {
 
-		return "수정된 댓글입니다.";
+		// 댓글 유무체크
+		Reply reply = replyService.getReplyById(id);
+		if (reply == null) {
+			return Ut.jsHistoryBack("F-1", Ut.f("%d번 글은 없습니다.", id));
+		}
+
+		// 권한체크
+		ResultData userCanModifyRd = replyService.userCanModify(rq.getLoginedMemberId(), reply);
+		if (userCanModifyRd.getResultCode().startsWith("F")) {
+			return Ut.jsHistoryBack("F-A", userCanModifyRd.getMsg());
+		}
+
+		replyService.modifyReply(id, body);
+
+		reply = replyService.getReplyById(id);
+
+		return Ut.jsReplace(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), "../article/detail?id=" + id);
 	}
 }
